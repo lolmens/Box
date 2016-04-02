@@ -1,0 +1,131 @@
+
+buttons.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+button_how_over
+  rotate: false
+  xy: 1, 157
+  size: 350, 50
+  orig: 350, 50
+  offset: 0, 0
+  index: -1
+button_save_m_down
+  rotate: false
+  xy: 1, 105
+  size: 350, 50
+  orig: 350, 50
+  offset: 0, 0
+  index: -1
+button_how_up
+  rotate: false
+  xy: 353, 157
+  size: 350, 50
+  orig: 350, 50
+  offset: 0, 0
+  index: -1
+button_save_m_up
+  rotate: false
+  xy: 1, 53
+  size: 350, 50
+  orig: 350, 50
+  offset: 0, 0
+  index: -1
+button_save_m_over
+  rotate: false
+  xy: 353, 105
+  size: 350, 50
+  orig: 350, 50
+  offset: 0, 0
+  index: -1
+button_how_down
+  rotate: false
+  xy: 1, 1
+  size: 350, 50
+  orig: 350, 50
+  offset: 0, 0
+  index: -1
+button_obj_m_up
+  rotate: false
+  xy: 705, 157
+  size: 220, 50
+  orig: 220, 50
+  offset: 0, 0
+  index: -1
+button_contact_up
+  rotate: false
+  xy: 353, 53
+  size: 220, 50
+  orig: 220, 50
+  offset: 0, 0
+  index: -1
+button_contact_over
+  rotate: false
+  xy: 705, 105
+  size: 220, 50
+  orig: 220, 50
+  offset: 0, 0
+  index: -1
+button_contact_down
+  rotate: false
+  xy: 353, 1
+  size: 220, 50
+  orig: 220, 50
+  offset: 0, 0
+  index: -1
+button_obj_m_over
+  rotate: false
+  xy: 575, 53
+  size: 220, 50
+  orig: 220, 50
+  offset: 0, 0
+  index: -1
+button_obj_m_down
+  rotate: false
+  xy: 575, 1
+  size: 220, 50
+  orig: 220, 50
+  offset: 0, 0
+  index: -1
+button_example_up
+  rotate: false
+  xy: 927, 157
+  size: 90, 50
+  orig: 90, 50
+  offset: 0, 0
+  index: -1
+button_example_over
+  rotate: false
+  xy: 797, 53
+  size: 90, 50
+  orig: 90, 50
+  offset: 0, 0
+  index: -1
+button_box_up
+  rotate: false
+  xy: 927, 105
+  size: 90, 50
+  orig: 90, 50
+  offset: 0, 0
+  index: -1
+button_example_down
+  rotate: false
+  xy: 797, 1
+  size: 90, 50
+  orig: 90, 50
+  offset: 0, 0
+  index: -1
+button_box_over
+  rotate: false
+  xy: 889, 53
+  size: 90, 50
+  orig: 90, 50
+  offset: 0, 0
+  index: -1
+button_box_down
+  rotate: false
+  xy: 889, 1
+  size: 90, 50
+  orig: 90, 50
+  offset: 0, 0
+  index: -1
