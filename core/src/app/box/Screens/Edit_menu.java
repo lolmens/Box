@@ -64,14 +64,14 @@ public class Edit_menu implements Screen {
         container_one = new Table();
         container_two = new Table();
 
-        container_one.setWidth(Gdx.graphics.getWidth()/4);
-        container_two.setWidth(Gdx.graphics.getWidth()/3);
+        container_one.setWidth(Gdx.graphics.getWidth() / 4);
+        container_two.setWidth(Gdx.graphics.getWidth() / 2 - 20);
 
         //inner table that is used as a makeshift list.
         Table innerContainer_one = new Table();
         Table innerContainer_two = new Table();
         //innerContainer.setBackground(new TextureRegionDrawable(new TextureRegion( new Texture(Gdx.files.internal("buttons.png")))));
-        for (int i = 0;i<objects.size();i++) {
+        for (int i = 0; i < objects.size(); i++) {
             Objects obj = objects.get(i);
             Table table = new Table(skin);
             table.add(new Image(obj.getTexture())).expandY().fillY();
@@ -85,30 +85,50 @@ public class Edit_menu implements Screen {
             innerContainer_one.row();
         }
 
-        if (Gdx.graphics.getHeight() > 44*objects.size()){
-            container_one.setHeight(43*objects.size());
-            container_one.setPosition(20, Gdx.graphics.getHeight() - 44*objects.size()-20);
-        }
-        else {
+        if (Gdx.graphics.getHeight() > 44 * objects.size()) {
+            container_one.setHeight(43 * objects.size());
+            container_one.setPosition(20, Gdx.graphics.getHeight() - 44 * objects.size() - 20);
+        } else {
             container_one.setHeight(Gdx.graphics.getHeight());
             container_one.setPosition(20, 20);
         }
 
 
-        String[] buttonts = {"edit","coor","rot"};
-        for (String button : buttonts){
+        String[] buttons = {"edit", "coor", "rot", "col", "tran"};
+        String[] texts = {
+                "It allows you to change the name of the object.",
+                "It allows you to change the coordinates of the object in space.",
+                "It allows you to rotate an object.",
+                "It allows you to change the color of the object.",
+                "It allows you to change the transparency of the object."
+        };
+        for (int i = 0; i < buttons.length; i++) {
             Table table = new Table(skin);
-            ImageButton imageButton = new ImageButton(load_Style(button));
+            ImageButton imageButton = new ImageButton(load_Style(buttons[i]));
             imageButton.setSize(200, 50);// размер кнопки
             imageButton.setPosition(0, 0);//x,y
             imageButton.addListener(new Listener(controller, 20));
-            table.add(imageButton).expandY().fillY();
-            table.getCells().get(0).size(200,50);
+            Label label = new Label(texts[i], skin);
+            label.setWrap(true);
+            if (i%2==0) {
+                table.add(imageButton).expandY().fill();//button
+                table.add(new Label("", skin)).width(10).expandY().fillY();//spaser
+                table.add(label).expandX().fillX();//text
+                table.getCells().get(0).size(200, 50);
+            }
+            else
+            {
+                table.add(label).expandX().fillX();//text
+                table.add(new Label("", skin)).width(10).expandY().fillY();//spaser
+                table.add(imageButton).expandY().fill();//button
+                table.getCells().get(2).size(200, 50);
+            }
+            //table.getCells().get(2).size(500,50);
             innerContainer_two.add(table).expand().fill();
             innerContainer_two.row();
         }
-        container_two.setHeight(Gdx.graphics.getHeight());
-        container_two.setPosition(Gdx.graphics.getWidth()/2, 20);
+        container_two.setHeight(Gdx.graphics.getHeight() - 40);
+        container_two.setPosition(Gdx.graphics.getWidth() / 2, 20);
 
 
         // create the scrollpane
