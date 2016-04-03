@@ -32,12 +32,12 @@ public class Listener extends InputListener {
             case 5:
                 controller.setScreen(new Edit_menu(controller));
                 break;
-            case 10:
-                System.out.println("10 " + event.getButton() + " " + button);
+            case 10://onli for table in Edit_menu
+                System.out.println("Number: " + event.getListenerActor().getName());
+                //event.getListenerActor()//***
                 break;
-            case 11:
-                System.out.println("11 " + event.getListenerActor().getName() + event.getButton() + " " + button);
-                event.getListenerActor().getName();
+            case 20:
+                System.out.println("20 " + event.getButton() + " " + button);
                 break;
         }
     }
