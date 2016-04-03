@@ -129,7 +129,7 @@ button_col_up
   orig: 202, 52
   offset: 0, 0
   index: -1
-button_tran_dowt
+button_tran_down
   rotate: false
   xy: 209, 173
   size: 202, 52
