@@ -158,12 +158,13 @@ public class WalkingControl extends Actor {
             //magic,расчитываем
             getOffsetPosition().x = (float) ((calcX * calcX + calcY * calcY > 1F) ? -Math.cos(angle)*75 : -calcX*75)-AMENDMENT;
             getOffsetPosition().y = (float) ((calcX * calcX + calcY * calcY > 1F) ? -Math.sin(angle)*75 : -calcY*75)-AMENDMENT;
+            double Speed = Math.min(Math.sqrt(Math.pow(calcX, 2) * 10 + Math.pow(calcY, 2) * 10), 4.3f);
 
         } else {
             getOffsetPosition().x = 0;
             getOffsetPosition().x = 0;
         }
-        double Speed = Math.min(Math.sqrt(Math.pow(calcX, 2) * 10 + Math.pow(calcY, 2) * 10), 4.3f);
+
     }
 
 

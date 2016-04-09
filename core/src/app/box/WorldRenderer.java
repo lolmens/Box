@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
 
@@ -61,5 +62,8 @@ public class WorldRenderer {
             objk.render(batch, environment);
         }
         batch.end();
+    }
+    public void camera_go(Vector3 v){
+        camera.position.add(v);
     }
 }

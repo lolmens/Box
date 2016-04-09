@@ -28,17 +28,15 @@ import app.box.Obj.Objects;
  * Created by user on 31.03.16.
  */
 public class Edit_menu implements Screen {
-    Controller controller;
-    Skin skin;
-    Stage stage;
+    private Controller controller;
+    private Skin skin;
+    private Stage stage;
 
-    ArrayList<Objects> objects;
-    //List list;
+    private ArrayList<Objects> objects;
 
     public Edit_menu(Controller controller) {
         this.controller = controller;
         objects = controller.obj;
-        //Gdx.input.setInputProcessor(stage);
         stage = new Stage();
         skin = controller.skin;
     }
@@ -59,24 +57,24 @@ public class Edit_menu implements Screen {
 
     @Override
     public void show() {
+        //таблица, которая содержит панель прокрутки
         Table container_one, container_two;
-        // table that holds the scroll pane
         container_one = new Table();
         container_two = new Table();
-
         container_one.setWidth(Gdx.graphics.getWidth() / 4);
         container_two.setWidth(Gdx.graphics.getWidth() / 2 - 20);
 
-        //inner table that is used as a makeshift list.
+        // Внутренняя таблица, которая используется в качестве импровизированного списка.
         Table innerContainer_one = new Table();
         Table innerContainer_two = new Table();
         //innerContainer.setBackground(new TextureRegionDrawable(new TextureRegion( new Texture(Gdx.files.internal("buttons.png")))));
+        //заполняем таблицу используя объекты и их содержимое
         for (int i = 0; i < objects.size(); i++) {
             Objects obj = objects.get(i);
             Table table = new Table(skin);
             table.add(new Image(obj.getTexture())).expandY().fillY();
             table.getCells().get(0).size(40, 40);
-            table.add(new Label("", skin)).width(10f).expandY().fillY();// a spacer
+            table.add(new Label("", skin)).width(10f).expandY().fillY();//разделитель
             table.add(new Label(obj.getName(), skin)).expandY().fillY();
             table.getCells().get(2).size(container_one.getWidth() * 2 / 3, 40);
             table.addListener(new Listener(controller, 10));
@@ -131,11 +129,11 @@ public class Edit_menu implements Screen {
         container_two.setPosition(Gdx.graphics.getWidth() / 2, 20);
 
 
-        // create the scrollpane
+        //Создание панелей прокрутки
         ScrollPane scrollpane_one = new ScrollPane(innerContainer_one);
         ScrollPane scrollpane_two = new ScrollPane(innerContainer_two);
 
-        //add the scroll pane to the container
+        //Добавиление панели прокрутки в контейнер
         container_one.add(scrollpane_one).fill().expand();
         container_two.add(scrollpane_two).fill().expand();
 
