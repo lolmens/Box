@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public class AssetM extends AssetManager{
 
     public void load(){
-        load("buttons.atlas", TextureAtlas.class);
+        load("buttons/buttons.atlas", TextureAtlas.class);
         while(!update());//ждём загрузки всего.
     }
 }

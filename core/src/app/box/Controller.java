@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import app.box.Obj.Objects;
 import app.box.Obj.Player;
 import app.box.Screens.Main_menu;
+import app.box.Screens.SCREEN_FOR_TEST;
 
 /**
  * Created by user on 29.03.16.
@@ -31,7 +32,7 @@ public class Controller extends Game {
     @Override
     public void create() {
         manager.load();
-        Atlas = manager.get("buttons.atlas", TextureAtlas.class);//загрузка атласа с изображениями
+        Atlas = manager.get("buttons/buttons.atlas", TextureAtlas.class);//загрузка атласа с изображениями
         skin_buttons = new Skin(Atlas);
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"), new TextureAtlas(Gdx.files.internal("ui/uiskin.atlas")));
         createStaff();

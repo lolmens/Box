@@ -50,7 +50,7 @@ public class WorldRenderer {
     public void render(ArrayList<Objects> obj) {
         //controller.update();
         camera.update();
-        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClearColor(0.1f, 0.1f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         batch.begin(camera);
         for (Objects objk : obj) {
