@@ -2,6 +2,7 @@ package app.box;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes;
@@ -28,9 +29,12 @@ public class Controller extends Game {
     public ArrayList<Objects> obj;
     public Skin skin_buttons;
     public Skin skin;
-
+    Player player;
+    public InputMultiplexer multiplexer;
     @Override
     public void create() {
+        multiplexer = new InputMultiplexer();
+        //Gdx.input.setInputProcessor(multiplexer);
         manager.load();
         Atlas = manager.get("buttons/buttons.atlas", TextureAtlas.class);//загрузка атласа с изображениями
         skin_buttons = new Skin(Atlas);
@@ -40,7 +44,8 @@ public class Controller extends Game {
     }
     private void createStaff() {
         obj = new ArrayList<Objects>();
-        obj.add(new Player());
+        player =new Player();
+        obj.add(player);
         Objects object = new Objects("Cylinder", new Texture(Gdx.files.internal("obj_img/default.png")));
         object.model = new ModelInstance(new ModelBuilder().createCylinder(10,10,10,90,new Material(ColorAttribute.createDiffuse(0.4f, 0.3f, 0.3f, 0.1f)), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal));
         object.model.transform.setTranslation(15,10,5);

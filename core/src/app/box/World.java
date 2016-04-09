@@ -16,7 +16,7 @@ public class World {
     ArrayList<Objects> obj;
     public World(Controller controller) {
         obj = controller.obj;
-        render = new WorldRenderer();
+        render = new WorldRenderer(controller);
     }
     public void update(float delta) {
         /*Gdx.gl.glClearColor(0.35f, 0, 0.35f, 0);

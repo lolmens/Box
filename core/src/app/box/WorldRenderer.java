@@ -22,9 +22,11 @@ public class WorldRenderer {
     private ModelBatch batch;
     private PerspectiveCamera camera;
     private Environment environment;
-    private CameraInputController controller;
+    private CameraInputController cameraInputController;
+    private Controller controller;
 
-    public WorldRenderer() {
+    public WorldRenderer(Controller controller) {
+        this.controller=controller;
         batch = new ModelBatch();
         createCamera();
         createEnvironment();
@@ -36,8 +38,10 @@ public class WorldRenderer {
         camera.lookAt(-5, -5, -5);
         camera.far = 100;
         camera.update();
-        controller = new CameraInputController(camera);
-        Gdx.input.setInputProcessor(controller);
+        cameraInputController = new CameraInputController(camera);
+        controller.multiplexer.addProcessor(cameraInputController);
+        Gdx.input.setInputProcessor(controller.multiplexer);
+        //Gdx.input.setInputProcessor(cameraInputController);
     }
 
     private void createEnvironment() {

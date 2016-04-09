@@ -1,14 +1,18 @@
 package app.box;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.sun.corba.se.spi.orbutil.fsm.Input;
 
 import app.box.Obj.Player;
 
@@ -54,25 +58,25 @@ public class WalkingControl extends Actor {
         setX(position.x);
         setY(position.y);
 
-        addListener(new InputListener() {
+        System.out.print(addListener(new InputListener() {
+
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return true;
             }
 
             //при двиджении
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
-
                 withControl(x, y);
             }
 
             //отпускаем джостик
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-
                 getOffsetPosition().x = 0;
                 getOffsetPosition().y = 0;
             }
 
-        });
+        }));
+        //System.out.print(addListener());
     }
 
 
@@ -131,27 +135,27 @@ public class WalkingControl extends Actor {
                     angle += 360;
 
             //System.out.println(angle);
-            /*//в зависимости от угла указываем направление, куда двигать игрока
-            if(angle>40 && angle<140)
-                ((Player)world.selectedActor).upPressed();
+            //в зависимости от угла указываем направление, куда двигать игрока
+            if(angle>40 && angle<140)//в низ
+                System.out.println("down");
 
-            if(angle>220 && angle<320)
-                ((Player)world.selectedActor).downPressed();
+            if(angle>220 && angle<320)//в верх
+                System.out.println("up");
 
 
-            if(angle>130 && angle<230)
-                ((Player)world.selectedActor).leftPressed();
+            if(angle>130 && angle<230)//на право
+                System.out.println("right");
 
-            if(angle<50 || angle>310)
-                ((Player)world.selectedActor).rightPressed();
+            if(angle<50 || angle>310)//на лево
+                System.out.println("left");
 
 
             //двигаем игрока
-            ((Player)world.selectedActor).processInput();
-            */
+            //((Player)world.selectedActor).processInput();
+
 
             angle = (float) (angle * Math.PI / 180);
-            //magic
+            //magic,расчитываем
             getOffsetPosition().x = (float) ((calcX * calcX + calcY * calcY > 1F) ? -Math.cos(angle)*75 : -calcX*75)-AMENDMENT;
             getOffsetPosition().y = (float) ((calcX * calcX + calcY * calcY > 1F) ? -Math.sin(angle)*75 : -calcY*75)-AMENDMENT;
 
@@ -161,4 +165,6 @@ public class WalkingControl extends Actor {
         }
         double Speed = Math.min(Math.sqrt(Math.pow(calcX, 2) * 10 + Math.pow(calcY, 2) * 10), 4.3f);
     }
+
+
 }

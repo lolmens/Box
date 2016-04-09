@@ -1,6 +1,5 @@
 package app.box.Screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Vector2;
@@ -24,11 +23,13 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        world = new World(controller);
 
         stage = new Stage();
-        stage.addActor(new WalkingControl(new Vector2(50,300),controller));
+        WalkingControl walkingControl = new WalkingControl(new Vector2(50,300),controller);
+        stage.addActor(walkingControl);
+        controller.multiplexer.addProcessor(stage);
         //Gdx.input.setInputProcessor(stage);
+        world = new World(controller);
 
     }
 
