@@ -40,45 +40,6 @@ public class Main_menu implements Screen {
 
     @Override
     public void show() {
-        /*float x = Gdx.graphics.getWidth() / 160;
-        float y = Gdx.graphics.getHeight() / 96;
-
-        ImageButton button_Box = new ImageButton(load_Style("box"));
-        button_Box.setSize(20 * x, 10 * y);// размер кнопки
-        button_Box.setPosition(138 * x, 72 * y);//x,y
-        button_Box.addListener(new Listener(controller, 4));
-
-        ImageButton button_ed_m = new ImageButton(load_Style("obj_m"));
-        button_ed_m.setSize(44 * x, 10 * y);// размер кнопки
-        button_ed_m.setPosition(112 * x, 41 * y);//x,y
-        button_ed_m.addListener(new Listener(controller, 5));
-
-        ImageButton button_save = new ImageButton(load_Style("save_m"));
-        button_save.setSize(70 * x, 10 * y);// размер кнопки
-        button_save.setPosition(86 * x, 15 * y);//x,y
-        button_save.addListener(new Listener(controller, 6));
-
-        ImageButton button_exm = new ImageButton(load_Style("example"));
-        button_exm.setSize(20 * x, 10 * y);// размер кнопки
-        button_exm.setPosition(4 * x, 15 * y);//x,y
-        button_exm.addListener(new Listener(controller, 3));
-
-        ImageButton button_cont = new ImageButton(load_Style("contact"));
-        button_cont.setSize(44 * x, 10 * y);// размер кнопки
-        button_cont.setPosition(4 * x, 41 * y);//x,y
-        button_cont.addListener(new Listener(controller, 2));
-
-        ImageButton button_how = new ImageButton(load_Style("how"));
-        button_how.setSize(70 * x, 10 * y);// размер кнопки
-        button_how.setPosition(4 * x, 72 * y);//x,y
-        button_how.addListener(new Listener(controller, 1));
-
-        stage.addActor(button_Box);
-        stage.addActor(button_ed_m);
-        stage.addActor(button_save);
-        stage.addActor(button_exm);
-        stage.addActor(button_cont);
-        stage.addActor(button_how);*/
         // Таблица, которая содержит панель прокрутки
         Table container_one, container_two;
         container_one = new Table();
@@ -104,11 +65,11 @@ public class Main_menu implements Screen {
         // Ну как сказать...
         for (int i = 0; i < buttons_list.length; i++) {
             Table table = new Table(skin);
-            ImageButton imageButton = new ImageButton(load_Style(buttons_list[i]));
-            load_Style((i <= buttons_list.length / 2 - 1) ? buttons_list[i] : buttons_list[buttons_list.length - i]);
+            ImageButton imageButton = new ImageButton(controller.getManager().load_Style(buttons_list[i]));
+            controller.getManager().load_Style((i <= buttons_list.length / 2 - 1) ? buttons_list[i] : buttons_list[buttons_list.length - i]);
             imageButton.setSize(200, 50);// размер кнопки
             imageButton.setPosition(0, 0);//x,y
-            imageButton.addListener(new Listener(controller, 20));
+            imageButton.addListener(new Listener(controller, i+1));
             if (i <= 2) {
                 table.add(imageButton).expand().fill();//button
                 table.add(new Label("", skin)).width(10).expandY().fillY();//spaser
@@ -133,12 +94,13 @@ public class Main_menu implements Screen {
             container_one.add(scrollpane_one).fill().expand();
             container_two.add(scrollpane_two).fill().expand();
 
-            // add container to the stage
+            //Добавить контейнер на сцену
             stage.addActor(container_one);
             stage.addActor(container_two);
 
-            // setup input processor (gets clicks and stuff)
-            Gdx.input.setInputProcessor(stage);
+            //Установка процессора (получает щелчки и прочее)
+            //Gdx.input.setInputProcessor(stage);
+            controller.multiplexer.addProcessor(stage);
         }
 
 
@@ -172,16 +134,10 @@ public class Main_menu implements Screen {
 
     @Override
     public void dispose() {
-
+        controller.multiplexer.removeProcessor(stage);
+        stage.dispose();
+        skin.dispose();
     }
 
-
-    private ImageButton.ImageButtonStyle load_Style(String name) {
-        ImageButton.ImageButtonStyle button = new ImageButton.ImageButtonStyle();
-        button.up = controller.skin_buttons.getDrawable("button_" + name + "_up");//кнопка не нажата
-        button.over = controller.skin_buttons.getDrawable("button_" + name + "_over");//на кнопку навели
-        button.down = controller.skin_buttons.getDrawable("button_" + name + "_down"); // кнопка нажата
-        return button;
-    }
 
 }
