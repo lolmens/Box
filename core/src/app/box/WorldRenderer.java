@@ -54,6 +54,8 @@ public class WorldRenderer {
 
     public void render(ArrayList<Objects> obj) {
         //controller.update();
+        /*Vector3 movecam  = controller.movecam();
+        if (movecam != null){ camera_go(movecam); System.out.println(camera.position.x+" "+camera.position.y+" "+camera.position.z);}*/
         camera.update();
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
@@ -65,5 +67,9 @@ public class WorldRenderer {
     }
     public void camera_go(Vector3 v){
         camera.position.add(v);
+    }
+    public void dispose(){
+        batch.dispose();
+        controller.multiplexer.removeProcessor(cameraInputController);
     }
 }

@@ -3,11 +3,13 @@ package app.box;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -136,7 +138,7 @@ public class WalkingControl extends Actor {
 
             //System.out.println(angle);
             //в зависимости от угла указываем направление, куда двигать игрока
-            if(angle>40 && angle<140)//в низ
+            /*if(angle>40 && angle<140)//в низ
                 System.out.println("down");
 
             if(angle>220 && angle<320)//в верх
@@ -148,7 +150,7 @@ public class WalkingControl extends Actor {
 
             if(angle<50 || angle>310)//на лево
                 System.out.println("left");
-
+            */
 
             //двигаем игрока
             //((Player)world.selectedActor).processInput();
@@ -159,6 +161,8 @@ public class WalkingControl extends Actor {
             getOffsetPosition().x = (float) ((calcX * calcX + calcY * calcY > 1F) ? -Math.cos(angle)*75 : -calcX*75)-AMENDMENT;
             getOffsetPosition().y = (float) ((calcX * calcX + calcY * calcY > 1F) ? -Math.sin(angle)*75 : -calcY*75)-AMENDMENT;
             double Speed = Math.min(Math.sqrt(Math.pow(calcX, 2) * 10 + Math.pow(calcY, 2) * 10), 4.3f);
+            //System.out.println("Angle:" + angle + " Speed:" + Speed + " x:" + getOffsetPosition().x+" y:"+getOffsetPosition().y+" CalcX:"+(-calcX)+" CalcY:"+(-calcY));
+            controller.movecam(new Vector3(getOffsetPosition().x*0.05f, getOffsetPosition().y*0.05f, 0));
 
         } else {
             getOffsetPosition().x = 0;

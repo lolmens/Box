@@ -22,7 +22,8 @@ public class World {
         /*Gdx.gl.glClearColor(0.35f, 0, 0.35f, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);*/
         render.render(obj);
-
     }
-
+    public void dispose(){
+        render.dispose();
+    }
 }
