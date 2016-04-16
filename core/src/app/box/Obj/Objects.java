@@ -12,11 +12,11 @@ public class Objects {
     /*protected*/public ModelInstance model;
     private String name;
     private Texture texture;
+    private boolean visible = true;
     public Objects(String name, Texture texture){
         this.name = name;
         this.texture = texture;
     }
-
     public String getName(){
         return  name;
     }
@@ -24,5 +24,7 @@ public class Objects {
     public void render(ModelBatch batch, Environment environment) {
         batch.render(model, environment);
     }
+    public void setVisible (boolean visible){this.visible=visible;}
+    public boolean isVisible(){return visible;}
 
 }
