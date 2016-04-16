@@ -69,7 +69,10 @@ public class Edit_menu implements Screen {
         Table innerContainer_two = new Table();
         //innerContainer.setBackground(new TextureRegionDrawable(new TextureRegion( new Texture(Gdx.files.internal("buttons.png")))));
         //заполняем таблицу используя объекты и их содержимое
+        byte objects_size = 0;
         for (int i = 0; i < objects.size(); i++) {
+            if (!objects.get(i).isVisible()) continue;
+            objects_size++;
             Objects obj = objects.get(i);
             Table table = new Table(skin);
             table.add(new Image(obj.getTexture())).expandY().fillY();
@@ -83,9 +86,9 @@ public class Edit_menu implements Screen {
             innerContainer_one.row();
         }
 
-        if (Gdx.graphics.getHeight() > 44 * objects.size()) {
-            container_one.setHeight(43 * objects.size());
-            container_one.setPosition(20, Gdx.graphics.getHeight() - 44 * objects.size() - 20);
+        if (Gdx.graphics.getHeight() > 44 * objects_size) {
+            container_one.setHeight(43 * objects_size);
+            container_one.setPosition(20, Gdx.graphics.getHeight() - 44 * objects_size - 20);
         } else {
             container_one.setHeight(Gdx.graphics.getHeight());
             container_one.setPosition(20, 20);
@@ -138,12 +141,21 @@ public class Edit_menu implements Screen {
         container_two.add(scrollpane_two).fill().expand();
 
 
-        // add container to the stage
+        //Добавить контейнер на сцену
         stage.addActor(container_one);
         stage.addActor(container_two);
 
-        // setup input processor (gets clicks and stuff)
-        Gdx.input.setInputProcessor(stage);
+        ImageButton button_back = new ImageButton(load_Style("back"));
+        button_back.setSize(30, 20);// размер кнопки
+        button_back.setPosition(2, Gdx.graphics.getHeight()-(button_back.getHeight()+2));//x,y
+        button_back.addListener(new Listener(controller, 21));
+
+        //Добавить кнопку возврата на сцену
+        stage.addActor(button_back);
+
+        //Установка процессора (получает щелчки и прочее)
+        //Gdx.input.setInputProcessor(stage);
+        controller.multiplexer.addProcessor(stage);
     }
 
     @Override
@@ -160,6 +172,8 @@ public class Edit_menu implements Screen {
 
     @Override
     public void dispose() {
+        controller.multiplexer.removeProcessor(stage);
+        stage.dispose();
     }
 
     private ImageButton.ImageButtonStyle load_Style(String name) {
