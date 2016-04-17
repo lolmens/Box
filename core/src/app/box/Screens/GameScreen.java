@@ -2,13 +2,11 @@ package app.box.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 
 import app.box.Controller;
-import app.box.Listener;
-import app.box.WalkingControl;
+import app.box.Listeners.Listener;
 import app.box.World;
 
 /**
@@ -34,7 +32,7 @@ public class GameScreen implements Screen {
         ImageButton button_back = new ImageButton(controller.getManager().load_Style("back"));
         button_back.setSize(30, 20);// размер кнопки
         button_back.setPosition(2, Gdx.graphics.getHeight()-(button_back.getHeight()+2));//x,y
-        button_back.addListener(new Listener(controller, 21));
+        button_back.addListener(new Listener(controller, 20));
 
         //Добавить кнопку возврата на сцену
         stage.addActor(button_back);
@@ -43,6 +41,8 @@ public class GameScreen implements Screen {
         controller.multiplexer.addProcessor(stage);
         //Gdx.input.setInputProcessor(stage);
         world = new World(controller);
+
+
 
     }
 
@@ -76,11 +76,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        System.out.println(controller.multiplexer.getProcessors().size);
         controller.multiplexer.removeProcessor(stage);
         world.dispose();
-        System.out.println(controller.multiplexer.getProcessors().size);
         stage.dispose();
-
     }
 }

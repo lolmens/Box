@@ -162,7 +162,7 @@ public class WalkingControl extends Actor {
             getOffsetPosition().y = (float) ((calcX * calcX + calcY * calcY > 1F) ? -Math.sin(angle)*75 : -calcY*75)-AMENDMENT;
             double Speed = Math.min(Math.sqrt(Math.pow(calcX, 2) * 10 + Math.pow(calcY, 2) * 10), 4.3f);
             //System.out.println("Angle:" + angle + " Speed:" + Speed + " x:" + getOffsetPosition().x+" y:"+getOffsetPosition().y+" CalcX:"+(-calcX)+" CalcY:"+(-calcY));
-            controller.movecam(new Vector3(getOffsetPosition().x*0.05f, getOffsetPosition().y*0.05f, 0));
+            //controller.movecam(new Vector3(getOffsetPosition().x*0.005f, 0, -getOffsetPosition().y*0.005f));
 
         } else {
             getOffsetPosition().x = 0;

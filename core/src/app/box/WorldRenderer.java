@@ -27,7 +27,7 @@ public class WorldRenderer {
     private Controller controller;
 
     public WorldRenderer(Controller controller) {
-        this.controller=controller;
+        this.controller = controller;
         batch = new ModelBatch();
         createCamera();
         createEnvironment();
@@ -54,7 +54,7 @@ public class WorldRenderer {
 
     public void render(ArrayList<Objects> obj) {
         //controller.update();
-        /*Vector3 movecam  = controller.movecam();
+        /*Vector3 movecam  = controller.movecam();//future
         if (movecam != null){ camera_go(movecam); System.out.println(camera.position.x+" "+camera.position.y+" "+camera.position.z);}*/
         camera.update();
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.2f, 1);
@@ -65,10 +65,16 @@ public class WorldRenderer {
         }
         batch.end();
     }
-    public void camera_go(Vector3 v){
+
+    public void camera_go(Vector3 v) {
         camera.position.add(v);
     }
-    public void dispose(){
+
+    public void camera_look(Vector3 v) {
+        camera.lookAt(v);
+    }
+
+    public void dispose() {
         batch.dispose();
         controller.multiplexer.removeProcessor(cameraInputController);
     }

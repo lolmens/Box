@@ -4,23 +4,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Scaling;
 
 import java.util.ArrayList;
 
 import app.box.Controller;
-import app.box.Listener;
+import app.box.Listeners.Listener;
 import app.box.Obj.Objects;
 
 
@@ -28,14 +26,17 @@ import app.box.Obj.Objects;
  * Created by user on 31.03.16.
  */
 public class Edit_menu implements Screen {
+
     private Controller controller;
     private Skin skin;
     private Stage stage;
-
     private ArrayList<Objects> objects;
+    public Table table_with_background = null;
+    private Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("blue.png")));
 
     public Edit_menu(Controller controller) {
         this.controller = controller;
+        controller.set_edit_menu(this);
         objects = controller.obj;
         stage = new Stage();
         skin = controller.skin;
@@ -105,20 +106,18 @@ public class Edit_menu implements Screen {
         };
         for (int i = 0; i < buttons.length; i++) {
             Table table = new Table(skin);
-            ImageButton imageButton = new ImageButton(load_Style(buttons[i]));
+            ImageButton imageButton = new ImageButton(controller.getManager().load_Style(buttons[i]));
             imageButton.setSize(200, 50);// размер кнопки
             imageButton.setPosition(0, 0);//x,y
-            imageButton.addListener(new Listener(controller, 20));
+            imageButton.addListener(new Listener(controller, 25+i));
             Label label = new Label(texts[i], skin);
             label.setWrap(true);
-            if (i%2==0) {
+            if (i % 2 == 0) {
                 table.add(imageButton).expandY().fill();//button
                 table.add(new Label("", skin)).width(10).expandY().fillY();//spaser
                 table.add(label).expandX().fillX();//text
                 table.getCells().get(0).size(200, 50);
-            }
-            else
-            {
+            } else {
                 table.add(label).expandX().fillX();//text
                 table.add(new Label("", skin)).width(10).expandY().fillY();//spaser
                 table.add(imageButton).expandY().fill();//button
@@ -145,10 +144,11 @@ public class Edit_menu implements Screen {
         stage.addActor(container_one);
         stage.addActor(container_two);
 
-        ImageButton button_back = new ImageButton(load_Style("back"));
+        //Создание кнопки назад
+        ImageButton button_back = new ImageButton(controller.getManager().load_Style("back"));
         button_back.setSize(30, 20);// размер кнопки
-        button_back.setPosition(2, Gdx.graphics.getHeight()-(button_back.getHeight()+2));//x,y
-        button_back.addListener(new Listener(controller, 21));
+        button_back.setPosition(2, Gdx.graphics.getHeight() - (button_back.getHeight() + 2));//x,y
+        button_back.addListener(new Listener(controller, 20));
 
         //Добавить кнопку возврата на сцену
         stage.addActor(button_back);
@@ -170,17 +170,14 @@ public class Edit_menu implements Screen {
     public void resume() {
     }
 
+    public Drawable getBackground() {
+        return background;
+    }
+
     @Override
     public void dispose() {
         controller.multiplexer.removeProcessor(stage);
+        controller.set_edit_menu(null);
         stage.dispose();
-    }
-
-    private ImageButton.ImageButtonStyle load_Style(String name) {
-        ImageButton.ImageButtonStyle button = new ImageButton.ImageButtonStyle();
-        button.up = controller.skin_buttons.getDrawable("button_" + name + "_up");//кнопка не нажата
-        button.over = controller.skin_buttons.getDrawable("button_" + name + "_up");//на кнопку навели
-        button.down = controller.skin_buttons.getDrawable("button_" + name + "_down"); // кнопка нажата
-        return button;
     }
 }
