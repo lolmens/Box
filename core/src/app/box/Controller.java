@@ -61,14 +61,15 @@ public class Controller extends Game {
         object.model.materials.get(0).set(blendingAttribute);
         object.model.materials.get(0).set(ColorAttribute.createDiffuse(0.6f, 0.4f, 0.3f, 1f));
         object.model.transform.setTranslation(15, 10, 5);
+        object.model.transform.rotate(45,45,0,90);
 
         obj.add(object);
         object = new Objects("X", new Texture(Gdx.files.internal("obj_img/default.png")));//red, x
-        object.setVisible(true);
+        object.setVisible(false);
         object.model = new ModelInstance(new ModelBuilder().createArrow(new Vector3(-1,0,0), new Vector3(10,0,0), new Material(ColorAttribute.createDiffuse(Color.RED)),VertexAttributes.Usage.Position));
         obj.add(object);
         object = new Objects("Y", new Texture(Gdx.files.internal("obj_img/default.png")));//green, y
-        object.setVisible(true);
+        object.setVisible(false);
         object.model = new ModelInstance(new ModelBuilder().createArrow(new Vector3(0,-1,0), new Vector3(0,10,0), new Material(ColorAttribute.createDiffuse(Color.GREEN)),VertexAttributes.Usage.Position));
         obj.add(object);
         object = new Objects("z", new Texture(Gdx.files.internal("obj_img/default.png")));//blue, z

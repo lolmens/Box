@@ -12,8 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
 
@@ -38,8 +42,8 @@ public class Edit_menu implements Screen {
         this.controller = controller;
         controller.set_edit_menu(this);
         objects = controller.obj;
-        stage = new Stage();
         skin = controller.skin;
+        stage = new Stage();
     }
 
     @Override
@@ -169,11 +173,36 @@ public class Edit_menu implements Screen {
     @Override
     public void resume() {
     }
+    //public void update (int id){}
 
     public Drawable getBackground() {
         return background;
     }
-
+    public void update(){
+        stage.clear();
+        show();
+    }
+    public void rotation(){
+        //System.out.println("Rotation");
+        Window window = new Window("Edit rotation", skin);
+        //window.getTitleTable().add(new TextButton("X", skin)).height(window.getPadTop());
+        window.setPosition(0, 0);
+        window.defaults().spaceBottom(10);
+        window.row().fill().expandX();
+        String[] texts_name = {"one", "two", "free", "four"};
+        String[] texts_enter = {"one", "two", "free", "four"};
+        for (int i = 0 ;i<texts_name.length;i++){
+            Label text = new Label(texts_name[i]+":", skin);
+            TextField field = new TextField("", skin);
+            field.setMessageText(texts_enter[i]);
+            field.setAlignment(Align.center);
+            window.add(text);
+            window.add(field);
+            window.row();
+        }
+        window.pack();
+        stage.addActor(window);
+    }
     @Override
     public void dispose() {
         controller.multiplexer.removeProcessor(stage);

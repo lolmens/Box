@@ -20,6 +20,7 @@ public class Objects {
     public String getName(){
         return  name;
     }
+    public void setName(String name){this.name=name;}
     public Texture getTexture() {return texture;}
     public void render(ModelBatch batch, Environment environment) {
         batch.render(model, environment);

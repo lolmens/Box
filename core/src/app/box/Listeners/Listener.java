@@ -2,14 +2,10 @@ package app.box.Listeners;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import app.box.Controller;
 import app.box.Screens.*;
@@ -59,7 +55,7 @@ public class Listener extends InputListener {
                     Drawable drawable = null;
                     controller.get_edit_menu().table_with_background.setBackground(drawable);
                 } else {
-                    ((Table)event.getListenerActor()).setBackground(controller.get_edit_menu().getBackground());
+                    ((Table) event.getListenerActor()).setBackground(controller.get_edit_menu().getBackground());
                 }
                 controller.get_edit_menu().table_with_background = (Table) event.getListenerActor();
                 /*System.out.println(
@@ -77,22 +73,25 @@ public class Listener extends InputListener {
                 break;
 
             case 25://Кнока edit name в edit menu
-                if (controller.get_edit_menu().table_with_background != null){
-                TextInputListener listener = new TextInputListener();
-                Gdx.input.getTextInput(listener, "Edit name", null, "Enter new name.");
+                if (controller.get_edit_menu().table_with_background != null) {
+                    TextInputListener listener = new TextInputListener(controller, Integer.parseInt(controller.get_edit_menu().table_with_background.getName()), TextInputListener.EDITNAME);
+                    System.out.println(controller.get_edit_menu().table_with_background.getName());
+                    Gdx.input.getTextInput(listener, "Edit name", null, "Enter new name.");
                 } //else
                 break;
             case 26://Кнока edit coordinates в edit menu
-                if (controller.get_edit_menu().table_with_background != null);//подумать возможно сделать новый экран
+                if (controller.get_edit_menu().table_with_background != null)
+                    ;//подумать возможно сделать новый экран
                 break;
             case 27://Кнока edit rotation в edit menu
-                if (controller.get_edit_menu().table_with_background != null);//подумать возможно сделать новый экран
+                if (controller.get_edit_menu().table_with_background != null)
+                    controller.get_edit_menu().rotation();
                 break;
             case 28://Кнока edit color в edit menu
-                if (controller.get_edit_menu().table_with_background != null);//Cделать новый экран
+                if (controller.get_edit_menu().table_with_background != null) ;//Cделать новый экран
                 break;
             case 29://Кнока edit transnarensy в edit menu
-                if (controller.get_edit_menu().table_with_background != null);//Cделать новый экран
+                if (controller.get_edit_menu().table_with_background != null) ;//Cделать новый экран
                 break;
         }
     }
