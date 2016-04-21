@@ -15,6 +15,7 @@ public class TextInputListener implements Input.TextInputListener {
     //types
     public final static int EDITNAME = 1;
 
+
     public TextInputListener(Controller controller, int id, int type){
         this.controller=controller;
         this.id=id;
@@ -22,7 +23,7 @@ public class TextInputListener implements Input.TextInputListener {
     }
     @Override
     public void input(String text) {
-        System.out.println("Entered : " + text);
+        //System.out.println("Entered : " + text);
         switch (type){
             case 1:
                 if (text.length() >= 15)
@@ -36,6 +37,6 @@ public class TextInputListener implements Input.TextInputListener {
 
     @Override
     public void canceled() {
-        System.out.println("Canseled");
+        //System.out.println("Canseled");
     }
 }

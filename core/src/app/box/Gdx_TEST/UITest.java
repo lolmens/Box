@@ -83,7 +83,7 @@ public class UITest extends GdxTest {
         checkBox.setChecked(true);
         final Slider slider = new Slider(0, 10, 1, false, skin);
         slider.setAnimateDuration(0.3f);
-        TextField textfield = new TextField("", skin);
+        final TextField textfield = new TextField("", skin);
         textfield.setMessageText("Click here!");
         textfield.setAlignment(Align.center);
         final SelectBox selectBox = new SelectBox(skin);

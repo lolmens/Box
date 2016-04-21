@@ -35,6 +35,7 @@ public class Controller extends Game {
     Player player;
     public InputMultiplexer multiplexer;
     private Edit_menu edit_menu;
+
     //private Vector3 go; //future
     @Override
     public void create() {
@@ -47,9 +48,10 @@ public class Controller extends Game {
         createStaff();
         this.setScreen(new Main_menu(this));
     }
+
     private void createStaff() {
         obj = new ArrayList<Objects>();
-        player =new Player();
+        player = new Player();
         obj.add(player);
 
         BlendingAttribute blendingAttribute;
@@ -61,32 +63,38 @@ public class Controller extends Game {
         object.model.materials.get(0).set(blendingAttribute);
         object.model.materials.get(0).set(ColorAttribute.createDiffuse(0.6f, 0.4f, 0.3f, 1f));
         object.model.transform.setTranslation(15, 10, 5);
-        object.model.transform.rotate(45,45,0,90);
+        object.model.transform.rotate(45, 45, 0, 90);
 
         obj.add(object);
         object = new Objects("X", new Texture(Gdx.files.internal("obj_img/default.png")));//red, x
         object.setVisible(false);
-        object.model = new ModelInstance(new ModelBuilder().createArrow(new Vector3(-1,0,0), new Vector3(10,0,0), new Material(ColorAttribute.createDiffuse(Color.RED)),VertexAttributes.Usage.Position));
+        object.model = new ModelInstance(new ModelBuilder().createArrow(new Vector3(-1, 0, 0), new Vector3(10, 0, 0), new Material(ColorAttribute.createDiffuse(Color.RED)), VertexAttributes.Usage.Position));
         obj.add(object);
         object = new Objects("Y", new Texture(Gdx.files.internal("obj_img/default.png")));//green, y
         object.setVisible(false);
-        object.model = new ModelInstance(new ModelBuilder().createArrow(new Vector3(0,-1,0), new Vector3(0,10,0), new Material(ColorAttribute.createDiffuse(Color.GREEN)),VertexAttributes.Usage.Position));
+        object.model = new ModelInstance(new ModelBuilder().createArrow(new Vector3(0, -1, 0), new Vector3(0, 10, 0), new Material(ColorAttribute.createDiffuse(Color.GREEN)), VertexAttributes.Usage.Position));
         obj.add(object);
         object = new Objects("z", new Texture(Gdx.files.internal("obj_img/default.png")));//blue, z
         object.setVisible(true);
-        object.model = new ModelInstance(new ModelBuilder().createArrow(new Vector3(0,0,-1), new Vector3(0,0,10), new Material(ColorAttribute.createDiffuse(Color.BLUE)),VertexAttributes.Usage.Position));
+        object.model = new ModelInstance(new ModelBuilder().createArrow(new Vector3(0, 0, -1), new Vector3(0, 0, 10), new Material(ColorAttribute.createDiffuse(Color.BLUE)), VertexAttributes.Usage.Position));
         obj.add(object);
 
     }
 
-    public AssetM getManager(){
+    public AssetM getManager() {
         return manager;
     }
 
-    public Edit_menu get_edit_menu(){return edit_menu;}
-    public void set_edit_menu(Edit_menu edit_menu){this.edit_menu = edit_menu;}
+    public Edit_menu get_edit_menu() {
+        return edit_menu;
+    }
+
+    public void set_edit_menu(Edit_menu edit_menu) {
+        this.edit_menu = edit_menu;
+    }
+
     @Override
-    public void dispose(){
+    public void dispose() {
         getScreen().dispose();
         skin.dispose();
         skin_buttons.dispose();

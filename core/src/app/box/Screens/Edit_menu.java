@@ -37,6 +37,7 @@ public class Edit_menu implements Screen {
     private ArrayList<Objects> objects;
     public Table table_with_background = null;
     private Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("blue.png")));
+    private TextField[] textFields = new TextField[4];//x,y,z,w
 
     public Edit_menu(Controller controller) {
         this.controller = controller;
@@ -100,37 +101,58 @@ public class Edit_menu implements Screen {
         }
 
 
-        String[] buttons = {"edit", "coor", "rot", "col", "tran"};
+        String[] buttons = {"edit", "coor", "rot", "col"};
         String[] texts = {
                 "It allows you to change the name of the object.",
                 "It allows you to change the coordinates of the object in space.",
                 "It allows you to rotate an object.",
-                "It allows you to change the color of the object.",
-                "It allows you to change the transparency of the object."
+                "It allows you to change the color and transparency of the object."
         };
         for (int i = 0; i < buttons.length; i++) {
             Table table = new Table(skin);
             ImageButton imageButton = new ImageButton(controller.getManager().load_Style(buttons[i]));
-            imageButton.setSize(200, 50);// размер кнопки
+            imageButton.setSize(200, 52);// размер кнопки
             imageButton.setPosition(0, 0);//x,y
-            imageButton.addListener(new Listener(controller, 25+i));
+            imageButton.addListener(new Listener(controller, 25 + i));
             Label label = new Label(texts[i], skin);
             label.setWrap(true);
             if (i % 2 == 0) {
                 table.add(imageButton).expandY().fill();//button
                 table.add(new Label("", skin)).width(10).expandY().fillY();//spaser
                 table.add(label).expandX().fillX();//text
-                table.getCells().get(0).size(200, 50);
+                table.getCells().get(0).size(200, 52);
             } else {
                 table.add(label).expandX().fillX();//text
                 table.add(new Label("", skin)).width(10).expandY().fillY();//spaser
                 table.add(imageButton).expandY().fill();//button
-                table.getCells().get(2).size(200, 50);
+                table.getCells().get(2).size(200, 52);
             }
             //table.getCells().get(2).size(500,50);
             innerContainer_two.add(table).expand().fill();
             innerContainer_two.row();
         }
+        //Пятая "линия"
+        Table fife_line = new Table(skin);
+        ImageButton imageButton_add = new ImageButton(controller.getManager().load_Style("add"));
+        ImageButton imageButton_remove = new ImageButton(controller.getManager().load_Style("remove"));
+        imageButton_add.setSize(97, 52);
+        imageButton_remove.setSize(152, 52);
+        imageButton_remove.addListener(new Listener(controller, 30));
+        Label label = new Label("It allows you to add or remove objects.", skin);
+        label.setWrap(true);
+        Label spaser = new Label("", skin);
+
+        fife_line.add(imageButton_add).expandY().fill();
+        fife_line.add(spaser).width(10).expandY().fillY();//spaser
+        fife_line.add(imageButton_remove).expandY().fill();
+        fife_line.add(spaser).width(10).expandY().fillY();//spaser
+        fife_line.add(label).expandX().fillX();
+
+        fife_line.getCells().get(0).size(97, 52);
+        fife_line.getCells().get(2).size(152, 52);
+        innerContainer_two.add(fife_line).expand().fill();
+        innerContainer_two.row();
+
         container_two.setHeight(Gdx.graphics.getHeight() - 40);
         container_two.setPosition(Gdx.graphics.getWidth() / 2, 20);
 
@@ -160,6 +182,7 @@ public class Edit_menu implements Screen {
         //Установка процессора (получает щелчки и прочее)
         //Gdx.input.setInputProcessor(stage);
         controller.multiplexer.addProcessor(stage);
+
     }
 
     @Override
@@ -178,35 +201,127 @@ public class Edit_menu implements Screen {
     public Drawable getBackground() {
         return background;
     }
-    public void update(){
+
+    public void update() {
+        table_with_background = null;
         stage.clear();
         show();
     }
-    public void rotation(){
+
+    public void rotation() {
         //System.out.println("Rotation");
         Window window = new Window("Edit rotation", skin);
         //window.getTitleTable().add(new TextButton("X", skin)).height(window.getPadTop());
-        window.setPosition(0, 0);
         window.defaults().spaceBottom(10);
-        window.row().fill().expandX();
-        String[] texts_name = {"one", "two", "free", "four"};
-        String[] texts_enter = {"one", "two", "free", "four"};
-        for (int i = 0 ;i<texts_name.length;i++){
-            Label text = new Label(texts_name[i]+":", skin);
-            TextField field = new TextField("", skin);
-            field.setMessageText(texts_enter[i]);
-            field.setAlignment(Align.center);
+        //window.row().fill().expandX();
+        String[] texts_name = {"axisX", "axisY", "axisZ", "degrees"};
+        String[] texts_enter = {"Enter int", "Enter int", "Enter int", "Enter int"};
+        for (int i = 0; i < texts_name.length; i++) {
+            Label text = new Label(texts_name[i] + ":", skin);
+            textFields[i] = new TextField("", skin);
+            textFields[i].setMessageText(texts_enter[i]);
+            textFields[i].setAlignment(Align.center);
             window.add(text);
-            window.add(field);
+            window.add(textFields[i]);
             window.row();
         }
+        ImageButton button_cansel = new ImageButton(controller.getManager().load_Style("cansel"));
+        button_cansel.addListener(new Listener(controller, 40));
+        ImageButton button_turn = new ImageButton(controller.getManager().load_Style("turn"));
+        button_turn.addListener(new Listener(controller, 41));
+        window.add(button_turn);
+        window.add(button_cansel);
+        window.setPosition(Gdx.graphics.getWidth() / 2 - window.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         window.pack();
         stage.addActor(window);
     }
+    public boolean edit_rotation() {
+        Objects objects = controller.obj.get(Integer.parseInt(table_with_background.getName()));
+        try {
+            objects.rotation(Integer.parseInt(textFields[0].getText()), Integer.parseInt(textFields[1].getText()), Integer.parseInt(textFields[2].getText()), Integer.parseInt(textFields[3].getText()));
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+    public void moving() {
+        Window window = new Window("Moving", skin);
+        window.defaults().spaceBottom(10);
+        String[] texts_name = {"axisX", "axisY", "axisZ"};
+        String[] texts_enter = {"Enter int", "Enter int", "Enter int"};
+        for (int i = 0; i < texts_name.length; i++) {
+            Label text = new Label(texts_name[i] + ":", skin);
+            textFields[i] = new TextField("", skin);
+            textFields[i].setMessageText(texts_enter[i]);
+            textFields[i].setAlignment(Align.center);
+            window.add(text);
+            window.add(textFields[i]);
+            window.row();
+        }
+        ImageButton button_cansel = new ImageButton(controller.getManager().load_Style("cansel"));
+        button_cansel.addListener(new Listener(controller, 40));
+        ImageButton button_turn = new ImageButton(controller.getManager().load_Style("move"));
+        button_turn.addListener(new Listener(controller, 42));
+        window.add(button_turn);
+        window.add(button_cansel);
+        window.setPosition(Gdx.graphics.getWidth() / 2 - window.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        window.pack();
+        stage.addActor(window);
+    }
+    public boolean edit_moving() {
+        Objects objects = controller.obj.get(Integer.parseInt(table_with_background.getName()));
+        try {
+            objects.moving(Integer.parseInt(textFields[0].getText()), Integer.parseInt(textFields[1].getText()), Integer.parseInt(textFields[2].getText()));
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+    public void remove(){
+        Label text = new Label("Are you sure that you want to delete "+objects.get(Integer.parseInt(table_with_background.getName())).getName()+"? \n"+
+                " There does not provide the ability to recover...", skin);
+        ImageButton button_cansel = new ImageButton(controller.getManager().load_Style("cansel"));
+        button_cansel.addListener(new Listener(controller, 40));
+        ImageButton button_ok = new ImageButton(controller.getManager().load_Style("ok"));
+        button_ok.addListener(new Listener(controller, 43));
+        button_ok.align(Align.left);
+
+        Window window = new Window("Remove?", skin);
+        window.setPosition(Gdx.graphics.getWidth() / 2 - window.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        window.row();
+        window.add(text);
+        window.row();
+        window.add(button_ok).align(Align.right);
+        window.add(new Label(" ", skin));
+        window.add(button_cansel).align(Align.left);
+        window.row();
+        window.setPosition(Gdx.graphics.getWidth() / 2 - window.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        window.pack();
+        stage.addActor(window);
+    }
+    public void remove_confirm(){
+        objects.get(Integer.parseInt(table_with_background.getName())).destroy();
+        objects.remove(Integer.parseInt(table_with_background.getName()));
+    }
+    public void error_window(String error_msg) {
+        Label text = new Label(error_msg, skin);
+        ImageButton button = new ImageButton(controller.getManager().load_Style("ok"));
+        button.addListener(new Listener(controller, 40));
+        Window window = new Window("Error", skin);
+        window.setPosition(Gdx.graphics.getWidth() / 2 - window.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        window.add(text);
+        window.row();
+        window.add(button);
+        window.pack();
+        stage.addActor(window);
+    }
+
     @Override
     public void dispose() {
         controller.multiplexer.removeProcessor(stage);
         controller.set_edit_menu(null);
         stage.dispose();
     }
+
+
 }

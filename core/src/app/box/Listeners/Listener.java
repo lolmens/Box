@@ -58,6 +58,8 @@ public class Listener extends InputListener {
                     ((Table) event.getListenerActor()).setBackground(controller.get_edit_menu().getBackground());
                 }
                 controller.get_edit_menu().table_with_background = (Table) event.getListenerActor();
+                controller.get_edit_menu().table_with_background.setName(event.getListenerActor().getName());
+                //System.out.println( controller.get_edit_menu().table_with_background.getName());
                 /*System.out.println(
                         "controller.get_edit_menu().table_with_background : " + (controller.get_edit_menu().table_with_background == null ? "null ":"not null ") + "\n" +
                         "controller.get_edit_menu().getBackground() : " + (controller.get_edit_menu().getBackground() == null ? "null ":"not null ") + "\n" +
@@ -75,13 +77,13 @@ public class Listener extends InputListener {
             case 25://Кнока edit name в edit menu
                 if (controller.get_edit_menu().table_with_background != null) {
                     TextInputListener listener = new TextInputListener(controller, Integer.parseInt(controller.get_edit_menu().table_with_background.getName()), TextInputListener.EDITNAME);
-                    System.out.println(controller.get_edit_menu().table_with_background.getName());
+                    //System.out.println(controller.get_edit_menu().table_with_background.getName());
                     Gdx.input.getTextInput(listener, "Edit name", null, "Enter new name.");
                 } //else
                 break;
             case 26://Кнока edit coordinates в edit menu
                 if (controller.get_edit_menu().table_with_background != null)
-                    ;//подумать возможно сделать новый экран
+                    controller.get_edit_menu().moving();
                 break;
             case 27://Кнока edit rotation в edit menu
                 if (controller.get_edit_menu().table_with_background != null)
@@ -90,9 +92,33 @@ public class Listener extends InputListener {
             case 28://Кнока edit color в edit menu
                 if (controller.get_edit_menu().table_with_background != null) ;//Cделать новый экран
                 break;
-            case 29://Кнока edit transnarensy в edit menu
-                if (controller.get_edit_menu().table_with_background != null) ;//Cделать новый экран
+            case 29://Кнока add в edit menu
                 break;
+            case 30://Кнока remove в edit menu
+                if (controller.get_edit_menu().table_with_background != null)
+                    controller.get_edit_menu().remove();
+                else controller.get_edit_menu().error_window("First you have to choose what to delete, isn't it?");
+                break;
+            case 40://Cansel, ok в window в edit menu
+                controller.get_edit_menu().update();
+                break;
+            case 41://Turn в window в edit menu
+                if (!controller.get_edit_menu().edit_rotation()) {
+                    controller.get_edit_menu().update();
+                    controller.get_edit_menu().error_window("Ops, something was wrong, trust me.");
+                } else controller.get_edit_menu().update();
+                break;
+            case 42://Move в window в edit menu
+                if (!controller.get_edit_menu().edit_moving()) {
+                    controller.get_edit_menu().update();
+                    controller.get_edit_menu().error_window("Ops, something was wrong, trust me.");
+                } else controller.get_edit_menu().update();
+                break;
+            case 43:
+                controller.get_edit_menu().remove_confirm();
+                controller.get_edit_menu().update();
+                break;
+
         }
     }
 }
