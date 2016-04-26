@@ -74,25 +74,26 @@ public class Listener extends InputListener {
                 controller.setScreen(new Main_menu(controller));
                 break;
 
-            case 25://Кнока edit name в edit menu
+            case 25://Кнопка edit name в edit menu
                 if (controller.get_edit_menu().table_with_background != null) {
                     TextInputListener listener = new TextInputListener(controller, Integer.parseInt(controller.get_edit_menu().table_with_background.getName()), TextInputListener.EDITNAME);
                     //System.out.println(controller.get_edit_menu().table_with_background.getName());
                     Gdx.input.getTextInput(listener, "Edit name", null, "Enter new name.");
                 } //else
                 break;
-            case 26://Кнока edit coordinates в edit menu
+            case 26://Кнопка edit coordinates в edit menu
                 if (controller.get_edit_menu().table_with_background != null)
                     controller.get_edit_menu().moving();
                 break;
-            case 27://Кнока edit rotation в edit menu
+            case 27://Кнопка edit rotation в edit menu
                 if (controller.get_edit_menu().table_with_background != null)
                     controller.get_edit_menu().rotation();
                 break;
-            case 28://Кнока edit color в edit menu
-                if (controller.get_edit_menu().table_with_background != null) ;//Cделать новый экран
+            case 28://Кнопка edit color в edit menu
+                if (controller.get_edit_menu().table_with_background != null)
+                    controller.get_edit_menu().color();//Cделать новый экран
                 break;
-            case 29://Кнока add в edit menu
+            case 29://Кнопка add в edit menu
                 break;
             case 30://Кнока remove в edit menu
                 if (controller.get_edit_menu().table_with_background != null)
@@ -114,10 +115,15 @@ public class Listener extends InputListener {
                     controller.get_edit_menu().error_window("Ops, something was wrong, trust me.");
                 } else controller.get_edit_menu().update();
                 break;
-            case 43:
+            case 43://Remove в window в edit menu
                 controller.get_edit_menu().remove_confirm();
                 controller.get_edit_menu().update();
                 break;
+            case 44://Remove в window в edit menu
+                controller.get_edit_menu().color_confirm();
+                controller.get_edit_menu().update();
+                break;
+
 
         }
     }

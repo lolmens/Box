@@ -32,7 +32,6 @@ public class WorldRenderer {
         createCamera();
         createEnvironment();
     }
-
     private void createCamera() {
         camera = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.position.set(25, 25, 25);//x y z
@@ -48,8 +47,10 @@ public class WorldRenderer {
     private void createEnvironment() {
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.5f, 0.5f, 0.5f, 0.8f));
-        environment.add(new DirectionalLight().set(0.7f, 0.7f, 0.7f, 1f, -0.8f, -0.2f));
-        environment.add(new PointLight().set(Color.RED, 10, 10, 15, 100));
+        //environment.add(new DirectionalLight().set(0.7f, 0.7f, 0.7f, 1f, -0.8f, -0.2f));
+        environment.add(new DirectionalLight().set(1f, 1f, 1f, -0.1f, -1f, -0.1f));
+        environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, 0.1f, 1f, 0.1f));
+        //environment.add(new PointLight().set(Color.RED, 10, 10, 15, 100));
     }
 
     public void render(ArrayList<Objects> obj) {

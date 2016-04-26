@@ -1,6 +1,7 @@
 package app.box.Obj;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes;
@@ -15,12 +16,13 @@ import com.badlogic.gdx.math.Vector3;
  * Created by user on 01.04.16.
  */
 public class Player extends Objects{
-    Vector3 translation = new Vector3(0,0,0);
     public Player(){
         super("Center", new Texture(Gdx.files.internal("obj_img/look.png")));
         ModelBuilder builder = new ModelBuilder();
-        model = new ModelInstance(builder.createSphere(0.2f, 0.2f, 0.2f, 20, 20, GL20.GL_TRIANGLES, new Material(ColorAttribute.createDiffuse(0.2f,0.16f,0.44f,1f)), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal));
+        model = new ModelInstance(builder.createSphere(0.2f, 0.2f, 0.2f, 20, 20, GL20.GL_TRIANGLES, new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal));
         //moveplayer(new Vector3(0,0,0));
-        setVisible(false);
+        setVisible(true);
+        setColor(new Color(0.2f,0.16f,0.44f,1f));
     }
+
 }

@@ -5,252 +5,266 @@ filter: Nearest,Nearest
 repeat: none
 button_example_up
   rotate: false
-  xy: 1, 408
+  xy: 1, 437
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_obj_m_up
   rotate: false
-  xy: 1, 354
+  xy: 1, 383
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_tran_up
   rotate: false
-  xy: 205, 408
+  xy: 205, 437
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_contact_up
   rotate: false
-  xy: 1, 300
+  xy: 1, 329
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_col_down
   rotate: false
-  xy: 205, 354
+  xy: 205, 383
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_rot_up
   rotate: false
-  xy: 409, 408
+  xy: 409, 437
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_coor_up
   rotate: false
-  xy: 1, 246
+  xy: 1, 275
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_coor_down
   rotate: false
-  xy: 205, 300
+  xy: 205, 329
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_col_up
   rotate: false
-  xy: 409, 354
+  xy: 409, 383
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_save_m_down
   rotate: false
-  xy: 613, 408
+  xy: 613, 437
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_box_up
   rotate: false
-  xy: 1, 192
+  xy: 1, 221
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_example_down
   rotate: false
-  xy: 205, 246
+  xy: 205, 275
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_contact_down
   rotate: false
-  xy: 409, 300
+  xy: 409, 329
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_rot_down
   rotate: false
-  xy: 613, 354
+  xy: 613, 383
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_how_up
   rotate: false
-  xy: 817, 408
+  xy: 817, 437
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_save_m_up
   rotate: false
-  xy: 1, 138
+  xy: 1, 167
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_edit_down
   rotate: false
-  xy: 205, 192
+  xy: 205, 221
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_edit_up
   rotate: false
-  xy: 409, 246
+  xy: 409, 275
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_obj_m_down
   rotate: false
-  xy: 613, 300
+  xy: 613, 329
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_box_down
   rotate: false
-  xy: 817, 354
+  xy: 817, 383
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_tran_down
   rotate: false
-  xy: 1, 84
+  xy: 1, 113
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_how_down
   rotate: false
-  xy: 205, 138
+  xy: 205, 167
   size: 202, 52
   orig: 202, 52
   offset: 0, 0
   index: -1
 button_remove_up
   rotate: false
-  xy: 409, 192
+  xy: 409, 221
   size: 152, 52
   orig: 152, 52
   offset: 0, 0
   index: -1
 button_remove_down
   rotate: false
-  xy: 613, 246
+  xy: 613, 275
   size: 152, 52
   orig: 152, 52
   offset: 0, 0
   index: -1
 button_add_down
   rotate: false
-  xy: 817, 300
+  xy: 817, 329
   size: 97, 52
   orig: 97, 52
   offset: 0, 0
   index: -1
 button_add_up
   rotate: false
-  xy: 1, 30
+  xy: 1, 59
   size: 97, 52
   orig: 97, 52
   offset: 0, 0
   index: -1
 button_back_up
   rotate: false
-  xy: 205, 91
+  xy: 205, 120
   size: 63, 45
   orig: 63, 45
   offset: 0, 0
   index: -1
 button_back_down
   rotate: false
-  xy: 409, 145
+  xy: 409, 174
   size: 63, 45
   orig: 63, 45
   offset: 0, 0
   index: -1
-button_cansel_up
+button_cancel_up
   rotate: false
-  xy: 563, 217
+  xy: 563, 246
   size: 77, 27
   orig: 77, 27
   offset: 0, 0
   index: -1
-button_cansel_down
+button_paint_down
   rotate: false
-  xy: 767, 271
+  xy: 767, 300
+  size: 77, 27
+  orig: 77, 27
+  offset: 0, 0
+  index: -1
+button_paint_up
+  rotate: false
+  xy: 916, 354
+  size: 77, 27
+  orig: 77, 27
+  offset: 0, 0
+  index: -1
+button_cancel_down
+  rotate: false
+  xy: 1, 30
   size: 77, 27
   orig: 77, 27
   offset: 0, 0
   index: -1
 button_turn_down
   rotate: false
-  xy: 916, 325
+  xy: 100, 84
   size: 52, 27
   orig: 52, 27
   offset: 0, 0
   index: -1
 button_ok_down
   rotate: false
-  xy: 1, 1
+  xy: 270, 138
   size: 52, 27
   orig: 52, 27
   offset: 0, 0
   index: -1
 button_move_up
   rotate: false
-  xy: 100, 55
+  xy: 474, 192
   size: 52, 27
   orig: 52, 27
   offset: 0, 0
   index: -1
 button_turn_up
   rotate: false
-  xy: 270, 109
+  xy: 642, 246
   size: 52, 27
   orig: 52, 27
   offset: 0, 0
   index: -1
 button_ok_up
   rotate: false
-  xy: 474, 163
+  xy: 846, 300
   size: 52, 27
   orig: 52, 27
   offset: 0, 0
   index: -1
 button_move_down
   rotate: false
-  xy: 642, 217
+  xy: 1, 1
   size: 52, 27
   orig: 52, 27
   offset: 0, 0

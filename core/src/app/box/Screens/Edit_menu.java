@@ -2,25 +2,30 @@ package app.box.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
 
+import app.box.Color.AlphaImage;
 import app.box.Controller;
 import app.box.Listeners.Listener;
 import app.box.Obj.Objects;
@@ -38,6 +43,7 @@ public class Edit_menu implements Screen {
     public Table table_with_background = null;
     private Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("blue.png")));
     private TextField[] textFields = new TextField[4];//x,y,z,w
+    private Color color;
 
     public Edit_menu(Controller controller) {
         this.controller = controller;
@@ -59,6 +65,7 @@ public class Edit_menu implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
     }
 
     @Override
@@ -196,7 +203,7 @@ public class Edit_menu implements Screen {
     @Override
     public void resume() {
     }
-    //public void update (int id){}
+
 
     public Drawable getBackground() {
         return background;
@@ -225,7 +232,7 @@ public class Edit_menu implements Screen {
             window.add(textFields[i]);
             window.row();
         }
-        ImageButton button_cansel = new ImageButton(controller.getManager().load_Style("cansel"));
+        ImageButton button_cansel = new ImageButton(controller.getManager().load_Style("cancel"));
         button_cansel.addListener(new Listener(controller, 40));
         ImageButton button_turn = new ImageButton(controller.getManager().load_Style("turn"));
         button_turn.addListener(new Listener(controller, 41));
@@ -235,6 +242,7 @@ public class Edit_menu implements Screen {
         window.pack();
         stage.addActor(window);
     }
+
     public boolean edit_rotation() {
         Objects objects = controller.obj.get(Integer.parseInt(table_with_background.getName()));
         try {
@@ -244,6 +252,7 @@ public class Edit_menu implements Screen {
         }
         return true;
     }
+
     public void moving() {
         Window window = new Window("Moving", skin);
         window.defaults().spaceBottom(10);
@@ -258,7 +267,7 @@ public class Edit_menu implements Screen {
             window.add(textFields[i]);
             window.row();
         }
-        ImageButton button_cansel = new ImageButton(controller.getManager().load_Style("cansel"));
+        ImageButton button_cansel = new ImageButton(controller.getManager().load_Style("cancel"));
         button_cansel.addListener(new Listener(controller, 40));
         ImageButton button_turn = new ImageButton(controller.getManager().load_Style("move"));
         button_turn.addListener(new Listener(controller, 42));
@@ -268,6 +277,7 @@ public class Edit_menu implements Screen {
         window.pack();
         stage.addActor(window);
     }
+
     public boolean edit_moving() {
         Objects objects = controller.obj.get(Integer.parseInt(table_with_background.getName()));
         try {
@@ -277,10 +287,11 @@ public class Edit_menu implements Screen {
         }
         return true;
     }
-    public void remove(){
-        Label text = new Label("Are you sure that you want to delete "+objects.get(Integer.parseInt(table_with_background.getName())).getName()+"? \n"+
+
+    public void remove() {
+        Label text = new Label("Are you sure that you want to delete " + objects.get(Integer.parseInt(table_with_background.getName())).getName() + "? \n" +
                 " There does not provide the ability to recover...", skin);
-        ImageButton button_cansel = new ImageButton(controller.getManager().load_Style("cansel"));
+        ImageButton button_cansel = new ImageButton(controller.getManager().load_Style("cancel"));
         button_cansel.addListener(new Listener(controller, 40));
         ImageButton button_ok = new ImageButton(controller.getManager().load_Style("ok"));
         button_ok.addListener(new Listener(controller, 43));
@@ -299,10 +310,12 @@ public class Edit_menu implements Screen {
         window.pack();
         stage.addActor(window);
     }
-    public void remove_confirm(){
+
+    public void remove_confirm() {
         objects.get(Integer.parseInt(table_with_background.getName())).destroy();
         objects.remove(Integer.parseInt(table_with_background.getName()));
     }
+
     public void error_window(String error_msg) {
         Label text = new Label(error_msg, skin);
         ImageButton button = new ImageButton(controller.getManager().load_Style("ok"));
@@ -314,6 +327,109 @@ public class Edit_menu implements Screen {
         window.add(button);
         window.pack();
         stage.addActor(window);
+    }
+
+    public void color() {
+        Texture whiteTexture;
+        Pixmap whitePixmap = new Pixmap(2, 2, Pixmap.Format.RGB888);
+        whitePixmap.setColor(Color.WHITE);
+        whitePixmap.drawRectangle(0, 0, 2, 2);
+        whiteTexture = new Texture(whitePixmap);
+        whiteTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        whitePixmap.dispose();
+
+        final Image image1, image2;
+
+        image1 = new AlphaImage(whiteTexture, 5);
+        image2 = new AlphaImage(whiteTexture, 5);
+        image1.setColor(objects.get(Integer.parseInt(table_with_background.getName())).getColor());
+        if (color == null) image2.setColor(new Color(image1.getColor()));
+        else image2.setColor(color);
+
+        //objects.get(Integer.parseInt(table_with_background.getName())).setColor(Color.valueOf("#6600CC").add(0, 0, 0, -0.5f));
+
+        final Slider slider = new Slider(0f, 10f, 1f, false, skin);
+        slider.setAnimateDuration(0.3f);
+        slider.setValue(image1.getColor().a * 10);
+
+        final Label transparensy_label = new Label("transparensy : " + image1.getColor().a, skin);
+        Label HEX_label = new Label("Enter HEX value", skin);
+        TextField Hex = new TextField("", skin);
+        Hex.setMessageText("#...");
+
+        Table table1 = new Table(skin), table2 = new Table(skin);
+
+        table1.add(image1).size(50, 50).expandX().fillX();
+        table1.row();
+        table1.add(new Image()).pad(0, 2, 0, 2);
+        table1.row();
+        table1.add(image2).size(50, 50).expandX().fillX();
+        table2.add(transparensy_label);
+        table2.row();
+        table2.add(slider).minWidth(100).fillX();
+        table2.row();
+        table2.add(HEX_label).minWidth(100).fillX();
+        table2.row();
+        table2.add(Hex);
+
+
+        ImageButton button_cansel = new ImageButton(controller.getManager().load_Style("cancel"));
+        button_cansel.addListener(new Listener(controller, 40));
+        ImageButton button_paint = new ImageButton(controller.getManager().load_Style("paint"));
+        button_paint.addListener(new Listener(controller, 44));
+        button_paint.align(Align.left);
+
+
+        Window window = new Window("Set color.", skin);
+        window.add(table1).expandX().fillX();
+        window.add(table2).expandX().fillX();
+        window.row();
+        window.add(button_cansel);
+        window.add(button_paint);
+        window.pack();
+
+        color = image1.getColor();
+
+        stage.addActor(window);
+
+        slider.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                //Gdx.app.log("UITest", "slider: " + slider.getValue());
+                /*Objects object = objects.get(Integer.parseInt(table_with_background.getName()));
+
+                Color color_obj = object.getColor();
+                color_obj.a = slider.getValue()/10;
+                object.setColor(color_obj);*/
+
+                Color img_color = image2.getColor();
+                img_color.a = slider.getValue() / 10;
+                image2.setColor(img_color);
+
+                color = img_color;
+                transparensy_label.setText("transparensy : " + slider.getValue() / 10);
+            }
+        });
+        Hex.setTextFieldListener(new TextField.TextFieldListener() {
+            public void keyTyped(TextField textField, char key) {
+                if (key == '\n') textField.getOnscreenKeyboard().show(false);
+                if ((textField.getText().substring(0, 1).equals("#") & textField.getText().length() == 7) || (!textField.getText().substring(0, 1).equals("#") & textField.getText().length() == 6)) {
+                    try {
+                        Color hex_color = new Color(Color.valueOf(textField.getText()));
+                        hex_color.a = image2.getColor().a;
+                        image2.setColor(hex_color);
+                        color = hex_color;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else ;//TODO:Доделать edit Color
+
+            }
+        });
+    }
+
+    public void color_confirm() {
+        objects.get(Integer.parseInt(table_with_background.getName())).setColor(color);
+        color = null;
     }
 
     @Override

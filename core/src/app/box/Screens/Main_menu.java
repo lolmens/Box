@@ -49,14 +49,14 @@ public class Main_menu implements Screen {
         container_two.setHeight(Gdx.graphics.getHeight() - 40);
 
         container_one.setPosition(Gdx.graphics.getWidth() / 6, 20);
-        container_two.setPosition(Gdx.graphics.getWidth() / 2, 20);
+        container_two.setPosition(Gdx.graphics.getWidth() / 2.75f, 20);
 
         // Внутренняя таблица, которая используется в качестве импровизированного списка.
         Table innerContainer_one = new Table();
         Table innerContainer_two = new Table();
 
         // Cписок названий кнопок
-        String[] buttons_list = {"example", "contact", "how", "box", "obj_m", "save_m"};
+        String[] buttons_list = {"save_m", "contact", "how", "box", "obj_m", "example"};
         String[] spaser_list = {" ", " ", " "};
 
         // Ну как сказать...
@@ -92,7 +92,7 @@ public class Main_menu implements Screen {
             container_two.add(scrollpane_two).fill().expand();
 
             //Добавить контейнер на сцену
-            stage.addActor(container_one);
+            //stage.addActor(container_one);//in future
             stage.addActor(container_two);
 
             //Установка процессора (получает щелчки и прочее)
