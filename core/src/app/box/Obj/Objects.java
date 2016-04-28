@@ -37,6 +37,7 @@ public class Objects {
         Vector3 translation = model.transform.getTranslation(new Vector3());
         model.transform.setToRotationRad(axisX, axisY, axisZ, (float)Math.toRadians(degrees));
         model.transform.setTranslation(translation);
+
     }
     public void moving(float x, float y, float z){
         model.transform.setTranslation(x,y,z);

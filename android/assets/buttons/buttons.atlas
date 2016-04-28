@@ -199,72 +199,100 @@ button_back_down
   orig: 63, 45
   offset: 0, 0
   index: -1
-button_cancel_up
+button_create_down
   rotate: false
   xy: 563, 246
   size: 77, 27
   orig: 77, 27
   offset: 0, 0
   index: -1
-button_paint_down
+button_cancel_down
   rotate: false
   xy: 767, 300
   size: 77, 27
   orig: 77, 27
   offset: 0, 0
   index: -1
-button_paint_up
+button_paint_down
   rotate: false
   xy: 916, 354
   size: 77, 27
   orig: 77, 27
   offset: 0, 0
   index: -1
-button_cancel_down
+button_create_up
   rotate: false
   xy: 1, 30
   size: 77, 27
   orig: 77, 27
   offset: 0, 0
   index: -1
-button_turn_down
+button_random_down
   rotate: false
   xy: 100, 84
-  size: 52, 27
-  orig: 52, 27
+  size: 77, 27
+  orig: 77, 27
   offset: 0, 0
   index: -1
-button_ok_down
+button_paint_up
   rotate: false
   xy: 270, 138
-  size: 52, 27
-  orig: 52, 27
+  size: 77, 27
+  orig: 77, 27
   offset: 0, 0
   index: -1
-button_move_up
+button_cancel_up
   rotate: false
   xy: 474, 192
-  size: 52, 27
-  orig: 52, 27
+  size: 77, 27
+  orig: 77, 27
   offset: 0, 0
   index: -1
-button_turn_up
+button_random_up
   rotate: false
   xy: 642, 246
-  size: 52, 27
-  orig: 52, 27
+  size: 77, 27
+  orig: 77, 27
   offset: 0, 0
   index: -1
-button_ok_up
+button_turn_down
   rotate: false
   xy: 846, 300
   size: 52, 27
   orig: 52, 27
   offset: 0, 0
   index: -1
-button_move_down
+button_ok_down
   rotate: false
   xy: 1, 1
+  size: 52, 27
+  orig: 52, 27
+  offset: 0, 0
+  index: -1
+button_move_up
+  rotate: false
+  xy: 349, 138
+  size: 52, 27
+  orig: 52, 27
+  offset: 0, 0
+  index: -1
+button_turn_up
+  rotate: false
+  xy: 563, 217
+  size: 52, 27
+  orig: 52, 27
+  offset: 0, 0
+  index: -1
+button_ok_up
+  rotate: false
+  xy: 617, 217
+  size: 52, 27
+  orig: 52, 27
+  offset: 0, 0
+  index: -1
+button_move_down
+  rotate: false
+  xy: 767, 271
   size: 52, 27
   orig: 52, 27
   offset: 0, 0

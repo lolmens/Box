@@ -22,6 +22,7 @@ import app.box.Obj.Objects;
 import app.box.Obj.Player;
 import app.box.Screens.Edit_menu;
 import app.box.Screens.Main_menu;
+import app.box.Screens.New_obj;
 
 /**
  * Created by user on 29.03.16.
@@ -35,6 +36,7 @@ public class Controller extends Game {
     Player player;
     public InputMultiplexer multiplexer;
     private Edit_menu edit_menu;
+    private New_obj new_obj;
 
     //private Vector3 go; //future
     @Override
@@ -96,6 +98,14 @@ public class Controller extends Game {
 
     public void set_edit_menu(Edit_menu edit_menu) {
         this.edit_menu = edit_menu;
+    }
+
+    public New_obj get_new_obj() {
+        return new_obj;
+    }
+
+    public void set_new_obj(New_obj new_obj) {
+        this.new_obj = new_obj;
     }
 
     @Override

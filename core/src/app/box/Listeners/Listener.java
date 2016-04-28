@@ -49,14 +49,10 @@ public class Listener extends InputListener {
                 break;
 
             case 10://onli for table in Edit_menu
-                //System.out.println("Number: " + event.getListenerActor().getName());
                 if (controller.get_edit_menu().table_with_background != null) {
-                    ((Table) event.getListenerActor()).setBackground(controller.get_edit_menu().table_with_background.getBackground());
-                    Drawable drawable = null;
-                    controller.get_edit_menu().table_with_background.setBackground(drawable);
-                } else {
-                    ((Table) event.getListenerActor()).setBackground(controller.get_edit_menu().getBackground());
+                    controller.get_edit_menu().table_with_background.setBackground((Drawable) null);
                 }
+                ((Table) event.getListenerActor()).setBackground(controller.get_edit_menu().getBackground());
                 controller.get_edit_menu().table_with_background = (Table) event.getListenerActor();
                 controller.get_edit_menu().table_with_background.setName(event.getListenerActor().getName());
                 //System.out.println( controller.get_edit_menu().table_with_background.getName());
@@ -68,16 +64,26 @@ public class Listener extends InputListener {
                 );*/
                 //event.getListenerActor()//***
                 break;
-
-            case 20://Кнопка назад
+            case 11:
+                if (controller.get_new_obj().table_with_background != null) {
+                    controller.get_new_obj().table_with_background.setBackground((Drawable) null);
+                }
+                ((Table) event.getListenerActor()).setBackground(controller.get_new_obj().getBackground());
+                controller.get_new_obj().table_with_background = (Table) event.getListenerActor();
+                controller.get_new_obj().table_with_background.setName(event.getListenerActor().getName());
+                controller.get_new_obj().show();
+                break;
+            case 20://Кнопка назад (возрат в Main menu)
                 controller.getScreen().dispose();
                 controller.setScreen(new Main_menu(controller));
                 break;
-
+            case 21://Кнопка назад (возрат в Edit menu)
+                controller.getScreen().dispose();
+                controller.setScreen(new Edit_menu(controller));
+                break;
             case 25://Кнопка edit name в edit menu
                 if (controller.get_edit_menu().table_with_background != null) {
                     TextInputListener listener = new TextInputListener(controller, Integer.parseInt(controller.get_edit_menu().table_with_background.getName()), TextInputListener.EDITNAME);
-                    //System.out.println(controller.get_edit_menu().table_with_background.getName());
                     Gdx.input.getTextInput(listener, "Edit name", null, "Enter new name.");
                 } //else
                 break;
@@ -94,11 +100,17 @@ public class Listener extends InputListener {
                     controller.get_edit_menu().color();//Cделать новый экран
                 break;
             case 29://Кнопка add в edit menu
+                controller.getScreen().dispose();
+                controller.setScreen(new New_obj(controller));
                 break;
             case 30://Кнока remove в edit menu
                 if (controller.get_edit_menu().table_with_background != null)
                     controller.get_edit_menu().remove();
-                else controller.get_edit_menu().error_window("First you have to choose what to delete, isn't it?");
+                else
+                    controller.get_edit_menu().error_window("First you have to choose what to delete, isn't it?");
+                break;
+            case 35://RANDOM COLOR
+                controller.get_new_obj().randomColor();
                 break;
             case 40://Cansel, ok в window в edit menu
                 controller.get_edit_menu().update();

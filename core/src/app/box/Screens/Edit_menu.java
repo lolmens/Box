@@ -41,7 +41,7 @@ public class Edit_menu implements Screen {
     private Stage stage;
     private ArrayList<Objects> objects;
     public Table table_with_background = null;
-    private Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("blue.png")));
+    private Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("background.png")));
     private TextField[] textFields = new TextField[4];//x,y,z,w
     private Color color;
 
@@ -51,6 +51,7 @@ public class Edit_menu implements Screen {
         objects = controller.obj;
         skin = controller.skin;
         stage = new Stage();
+        controller.multiplexer.addProcessor(stage);
     }
 
     @Override
@@ -88,8 +89,7 @@ public class Edit_menu implements Screen {
             objects_size++;
             Objects obj = objects.get(i);
             Table table = new Table(skin);
-            table.add(new Image(obj.getTexture())).expandY().fillY();
-            table.getCells().get(0).size(40, 40);
+            table.add(new Image(obj.getTexture())).size(40, 40).expandY().fillY();
             table.add(new Label("", skin)).width(10f).expandY().fillY();//разделитель
             table.add(new Label(obj.getName(), skin)).expandY().fillY();
             table.getCells().get(2).size(container_one.getWidth() * 2 / 3, 40);
@@ -145,14 +145,15 @@ public class Edit_menu implements Screen {
         imageButton_add.setSize(97, 52);
         imageButton_remove.setSize(152, 52);
         imageButton_remove.addListener(new Listener(controller, 30));
+        imageButton_add.addListener(new Listener(controller, 29));
         Label label = new Label("It allows you to add or remove objects.", skin);
         label.setWrap(true);
         Label spaser = new Label("", skin);
 
         fife_line.add(imageButton_add).expandY().fill();
-        fife_line.add(spaser).width(10).expandY().fillY();//spaser
+        fife_line.add(spaser).width(10).expandY().fillY();//spacer
         fife_line.add(imageButton_remove).expandY().fill();
-        fife_line.add(spaser).width(10).expandY().fillY();//spaser
+        fife_line.add(spaser).width(10).expandY().fillY();//spacer
         fife_line.add(label).expandX().fillX();
 
         fife_line.getCells().get(0).size(97, 52);
@@ -185,10 +186,6 @@ public class Edit_menu implements Screen {
 
         //Добавить кнопку возврата на сцену
         stage.addActor(button_back);
-
-        //Установка процессора (получает щелчки и прочее)
-        //Gdx.input.setInputProcessor(stage);
-        controller.multiplexer.addProcessor(stage);
 
     }
 
@@ -352,7 +349,7 @@ public class Edit_menu implements Screen {
         slider.setAnimateDuration(0.3f);
         slider.setValue(image1.getColor().a * 10);
 
-        final Label transparensy_label = new Label("transparensy : " + image1.getColor().a, skin);
+        final Label transparency_label = new Label("transparensy : " + image1.getColor().a, skin);
         Label HEX_label = new Label("Enter HEX value", skin);
         TextField Hex = new TextField("", skin);
         Hex.setMessageText("#...");
@@ -364,7 +361,7 @@ public class Edit_menu implements Screen {
         table1.add(new Image()).pad(0, 2, 0, 2);
         table1.row();
         table1.add(image2).size(50, 50).expandX().fillX();
-        table2.add(transparensy_label);
+        table2.add(transparency_label);
         table2.row();
         table2.add(slider).minWidth(100).fillX();
         table2.row();
@@ -406,7 +403,7 @@ public class Edit_menu implements Screen {
                 image2.setColor(img_color);
 
                 color = img_color;
-                transparensy_label.setText("transparensy : " + slider.getValue() / 10);
+                transparency_label.setText("transparensy : " + slider.getValue() / 10);
             }
         });
         Hex.setTextFieldListener(new TextField.TextFieldListener() {

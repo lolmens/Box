@@ -17,7 +17,7 @@ import com.badlogic.gdx.math.Vector3;
  */
 public class Player extends Objects{
     public Player(){
-        super("Center", new Texture(Gdx.files.internal("obj_img/look.png")));
+        super("Center", new Texture(Gdx.files.internal("obj_img/player.png")));
         ModelBuilder builder = new ModelBuilder();
         model = new ModelInstance(builder.createSphere(0.2f, 0.2f, 0.2f, 20, 20, GL20.GL_TRIANGLES, new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal));
         //moveplayer(new Vector3(0,0,0));

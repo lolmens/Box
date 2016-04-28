@@ -1,8 +1,5 @@
 package app.box.Gdx_TEST;
 
-/**
- * Created by user on 17.04.16.
- */
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.InputAdapter;
 
