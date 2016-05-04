@@ -65,7 +65,7 @@ public class Controller extends Game {
         object.model.materials.get(0).set(blendingAttribute);
         object.model.materials.get(0).set(ColorAttribute.createDiffuse(0.9f, 0.6f, 0.7f, 0.5f));
         object.setColor(new Color(0.9f, 0.6f, 0.7f, 0.5f));
-        object.model.transform.setTranslation(15, 10, 5);
+        //object.model.transform.setTranslation(15, 10, 5);
         object.model.transform.rotate(45, 0, 45, 90);
         //object.model.transform.
 
