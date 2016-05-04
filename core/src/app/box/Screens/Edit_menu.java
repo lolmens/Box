@@ -219,7 +219,7 @@ public class Edit_menu implements Screen {
         window.defaults().spaceBottom(10);
         //window.row().fill().expandX();
         String[] texts_name = {"axisX", "axisY", "axisZ", "degrees"};
-        String[] texts_enter = {"Enter int", "Enter int", "Enter int", "Enter int"};
+        String[] texts_enter = {"Enter integer", "Enter int", "Enter int", "Enter int"};
         for (int i = 0; i < texts_name.length; i++) {
             Label text = new Label(texts_name[i] + ":", skin);
             textFields[i] = new TextField("", skin);

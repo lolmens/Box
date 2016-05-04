@@ -135,6 +135,9 @@ public class Listener extends InputListener {
                 controller.get_edit_menu().color_confirm();
                 controller.get_edit_menu().update();
                 break;
+            case 45://Create в New_obj
+                controller.get_new_obj().create();
+                break;
 
 
         }

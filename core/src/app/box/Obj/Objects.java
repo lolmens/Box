@@ -1,10 +1,11 @@
 package app.box.Obj;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.Attribute;
 import com.badlogic.gdx.graphics.g3d.Environment;
-import com.badlogic.gdx.graphics.g3d.Material;
+import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.BlendingAttribute;
@@ -25,6 +26,18 @@ public class Objects {
         this.name = name;
         this.texture = texture;
     }
+    public void createModel(ModelInstance model){
+        this.model = model;
+    }
+    public void createModel(Model model, Color color){
+        BlendingAttribute blendingAttribute;
+        blendingAttribute = new BlendingAttribute(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        blendingAttribute.opacity = 0.5f;
+        this.model = new ModelInstance(model);
+        this.model.materials.get(0).set(blendingAttribute);
+        this.model.materials.get(0).set(ColorAttribute.createDiffuse(0,0,0,0));
+        setColor(color);
+    }
     public String getName(){
         return  name;
     }
@@ -35,8 +48,12 @@ public class Objects {
     public boolean isVisible(){return visible;}
     public void rotation(float axisX, float axisY, float axisZ, float degrees){
         Vector3 translation = model.transform.getTranslation(new Vector3());
-        model.transform.setToRotationRad(axisX, axisY, axisZ, (float)Math.toRadians(degrees));
+        model.transform.setToRotationRad(axisX, axisY, axisZ, (float) Math.toRadians(degrees));
         model.transform.setTranslation(translation);
+
+    }
+    public void rotation(float axisX, float axisY, float axisZ){
+        rotation(axisX,axisY,axisZ,axisX+axisY+axisZ);
 
     }
     public void moving(float x, float y, float z){

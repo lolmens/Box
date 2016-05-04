@@ -6,10 +6,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.Material;
+import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.attributes.BlendingAttribute;
+import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -29,6 +32,7 @@ import java.util.ArrayList;
 import app.box.Color.AlphaImage;
 import app.box.Controller;
 import app.box.Listeners.Listener;
+import app.box.Obj.Objects;
 
 /**
  * Created by user on 26.04.16.
@@ -40,9 +44,25 @@ public class New_obj implements Screen {
     public Table table_with_background = null;
     private Texture background = new Texture("background.png");
     private ArrayList<ArrayList<String>> staff;
-    private Table coordinate, color, container_right, container_left, staffRight;
+    private Table coordinate, color, rotation, buttons,  container_right, container_left, staffRight;
     private Image image;
+    private Slider sliderX, sliderY, sliderZ;
     private TextField textFieldHex;
+
+    boolean boolWidth = false;
+    TextField FieldWidth;
+    boolean boolHeight = false;
+    TextField FieldHeight;
+    boolean boolDept = false;
+    TextField FieldDept;
+    boolean boolDivisionU = false;
+    TextField FieldDivisionU;
+    boolean boolDivisionV = false;
+    TextField FieldDivisionV;
+    boolean boolDivisions = false;
+    TextField FieldDivisions;
+
+
 
     public New_obj(Controller controller) {
         this.controller = controller;
@@ -68,25 +88,28 @@ public class New_obj implements Screen {
         stage.addActor(container_left);
         if (container_right == null) {
             container_right = new Table(skin);
-            container_right.setWidth(Gdx.graphics.getWidth() * 4.5f / 7f);
-            container_right.setHeight(Gdx.graphics.getHeight() - Gdx.graphics.getHeight() * 0.5f / 4.5f);
-            container_right.setPosition(Gdx.graphics.getWidth() * 3.5f / 7f, Gdx.graphics.getHeight() * 0.5f / 3.5f);
+            container_right.setWidth(Gdx.graphics.getWidth() * 4f / 7f);
+            container_right.setHeight(Gdx.graphics.getHeight() - Gdx.graphics.getHeight() * 1f / 4.5f);
+            container_right.setPosition(Gdx.graphics.getWidth() * 2.8f / 7f, Gdx.graphics.getHeight() * 0.5f / 3.5f);
             coordinate = createRightContainerCoordinate();
             color = createRightContainerColor();
             staffRight = new Table(skin);
+            rotation = createRightContainerRotation();
+            buttons = createRightContainerButtons();
         } else {
             container_right.clear();
             staffRight.clear();
             coordinate = createRightContainerCoordinate();
         }
-        staffRight.add(coordinate).expand().fill().row();
-        staffRight.add(color).expand().fill().row();
-        staffRight.pack();
+        Label label = new Label("",skin);
+        staffRight.add(coordinate).fill().expand().row();
+        staffRight.add(color).fill().expand().row();
+        staffRight.add(rotation).fill().expand().row();
+        staffRight.add(buttons).fill().expand().row();
 
         ScrollPane scroll = new ScrollPane(staffRight);
 
-        container_right.add(scroll).fill().expand().row();
-        container_right.pack();
+        container_right.add(scroll).fill().expand();
         stage.addActor(container_right);
 
         //Создание кнопки назад
@@ -97,6 +120,7 @@ public class New_obj implements Screen {
 
         //Добавить кнопку возврата на сцену
         stage.addActor(button_back);
+
 
     }
 
@@ -132,18 +156,6 @@ public class New_obj implements Screen {
 
     public Table createRightContainerCoordinate() {
         ArrayList<String> options = staff.get(Integer.parseInt(table_with_background.getName()));
-        boolean boolWidth = false;
-        TextField FieldWidth;
-        boolean boolHeight = false;
-        TextField FieldHeight;
-        boolean boolDept = false;
-        TextField FieldDept;
-        boolean boolDivisionU = false;
-        TextField FieldDivisionU;
-        boolean boolDivisionV = false;
-        TextField FieldDivisionV;
-        boolean boolDivisions = false;
-        TextField FieldDivisions;
         Table table = new Table(skin);
         table.add(new Label("Coordinate:", skin)).row();
         int i = 0;
@@ -234,6 +246,7 @@ public class New_obj implements Screen {
         image.setColor(color);
         Label label_color = new Label("Color:", skin);
         Label label_hex = new Label("Hex:", skin);
+        Label label = new Label("",skin);
         textFieldHex = new TextField("#00FF33", skin);
         textFieldHex.setMessageText("#...");
         ImageButton button_random = new ImageButton(controller.getManager().load_Style("random"));
@@ -241,7 +254,7 @@ public class New_obj implements Screen {
         final Slider slider = new Slider(0f, 10f, 1f, false, skin);
         slider.setAnimateDuration(0.3f);
         slider.setValue(color.a * 10);
-        final Label transparencyLabel = new Label("transparensy : " + color.a, skin);
+        final Label transparencyLabel = new Label("Transparensy : " + color.a, skin);
 
         Table table = new Table(skin);
         table.add(label_color).expand().fill();
@@ -249,28 +262,28 @@ public class New_obj implements Screen {
         table.add(button_random).size(72, 27).expand().fill();
         table.add(label_hex).expand().fill();
         table.add(textFieldHex).size(label_hex.getWidth() * 3, textFieldHex.getHeight()).expand().fill().row();
+        table.add(label).size(label.getWidth(), 5).fill().expand().row();
         table.add(transparencyLabel).expand().fill();
-        table.add(new Label("", skin));
+        table.add(label);
         table.add(slider).minWidth(100).fillX().row();
         table.pack();
 
         slider.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                color.a = slider.getValue() / 10;
-                transparencyLabel.setText("transparensy : " + slider.getValue() / 10);
-                image.setColor(color);
+                image.getColor().a = slider.getValue() / 10;
+                transparencyLabel.setText("Transparensy : " + slider.getValue() / 10);
             }
         });
 
         textFieldHex.setTextFieldListener(new TextField.TextFieldListener() {
             public void keyTyped(TextField textField, char key) {
                 if (key == '\n') textField.getOnscreenKeyboard().show(false);
+                if (textField.getText().length() > 4)
                 if ((textField.getText().substring(0, 1).equals("#") & textField.getText().length() == 7) || (!textField.getText().substring(0, 1).equals("#") & textField.getText().length() == 6)) {
                     try {
                         Color hex_color = new Color(Color.valueOf(textField.getText()));
-                        hex_color.a = color.a;
-                        color.set(hex_color);
-                        image.setColor(color);
+                        hex_color.a = image.getColor().a;
+                        image.setColor(hex_color);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -281,7 +294,54 @@ public class New_obj implements Screen {
 
         return table;
     }
-    public void randomColor(){//TODO: alpha
+
+    public Table createRightContainerRotation(){
+        final Label labelName, labelX, labelY, labelZ;
+        labelName = new Label("Change rotation: ",skin);//TODO: translate
+        labelX = new Label("to X: "+0,skin);
+        labelY = new Label("to Y: "+0,skin);
+        labelZ = new Label("to Z: "+0,skin);
+        sliderX = new Slider(0f, 360f, 1f, false, skin);
+        sliderY = new Slider(0f, 360f, 1f, false, skin);
+        sliderZ = new Slider(0f, 360f, 1f, false, skin);
+        Table table = new Table(skin);
+        table.add(labelName).expand().fill().row();
+        table.add(labelX).expand().fill();
+        table.add(sliderX).expand().fill().row();
+        table.add(labelY).expand().fill();
+        table.add(sliderY).expand().fill().row();
+        table.add(labelZ).expand().fill();
+        table.add(sliderZ).expand().fill().row();
+        table.pack();
+
+        sliderX.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                labelX.setText("to X: " + sliderX.getValue());
+            }
+        });
+        sliderY.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                labelY.setText("to Y: " + sliderY.getValue());
+            }
+        });
+        sliderZ.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                labelZ.setText("to Z: " + sliderZ.getValue());
+            }
+        });
+        return table;
+    }
+
+    public Table createRightContainerButtons(){
+        ImageButton create = new ImageButton(controller.getManager().load_Style("create"));
+        create.addListener(new Listener(controller, 45));
+        Table table = new Table(skin);
+        table.add(create).size(create.getWidth(), create.getHeight()).fill().expand();
+        table.pack();
+        return table;
+    }
+
+    public void randomColor() {//TODO: alpha, static public String RandomHexColor(){}
         String[] strings = {"00", "33", "66", "99", "CC", "FF"};
         String hex = "";
         for (int i = 0; i < 3; i++) {
@@ -292,6 +352,7 @@ public class New_obj implements Screen {
         image.setColor(hex_color);
         textFieldHex.setText("#" + hex);
     }
+
     private Table create_staff() {
         ArrayList<ArrayList<String>> staff = new ArrayList<ArrayList<String>>();
         ArrayList<String> data = new ArrayList<String>();
@@ -376,7 +437,25 @@ public class New_obj implements Screen {
     public Drawable getBackground() {
         return new TextureRegionDrawable(new TextureRegion(background));
     }
+    public void create(){
+        ArrayList<String> options = staff.get(Integer.parseInt(table_with_background.getName()));//name and etc.
+        Color color = image.getColor();
+        Objects object = new Objects(options.get(0),new Texture(Gdx.files.internal("obj_img/default.png")));
+        Model model;//TODO: private boolean fieldIsAvable(){}
+        Material material = new Material();
+        model = new ModelBuilder().createXYZCoordinates(30,material,VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+        switch (Integer.parseInt(table_with_background.getName())){
+            case 0:
+                model = new ModelBuilder().createBox(Integer.parseInt(FieldWidth.getText()),Integer.parseInt(FieldHeight.getText()),Integer.parseInt(FieldDept.getText()),material, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+                break;
 
+        }
+        object.createModel(model, color);
+        object.rotation(sliderX.getValue(), sliderY.getValue(), sliderZ.getValue());
+        controller.obj.add(object);
+        controller.setScreen(new Edit_menu(controller));
+        dispose();
+    }
     @Override
     public void dispose() {
         controller.multiplexer.removeProcessor(stage);
