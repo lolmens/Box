@@ -21,7 +21,7 @@ public class Player extends Objects{
         ModelBuilder builder = new ModelBuilder();
         model = new ModelInstance(builder.createSphere(0.2f, 0.2f, 0.2f, 20, 20, GL20.GL_TRIANGLES, new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal));
         //moveplayer(new Vector3(0,0,0));
-        setVisible(true);
+        setVisible(false);
         setColor(new Color(0.2f,0.16f,0.44f,1f));
     }
 

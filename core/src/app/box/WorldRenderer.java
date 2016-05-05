@@ -50,6 +50,7 @@ public class WorldRenderer {
         //environment.add(new DirectionalLight().set(0.7f, 0.7f, 0.7f, 1f, -0.8f, -0.2f));
         environment.add(new DirectionalLight().set(1f, 1f, 1f, -0.1f, -1f, -0.1f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, 0.1f, 1f, 0.1f));
+        environment.add(new DirectionalLight().set(new Color(Color.valueOf("FFFF99").add(-0.4f,-0.4f,-0.4f,-0.9f)), new Vector3(-10,-3,-10)));
         //environment.add(new PointLight().set(Color.RED, 10, 10, 15, 100));
     }
 

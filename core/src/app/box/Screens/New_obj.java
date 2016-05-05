@@ -13,6 +13,8 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.attributes.BlendingAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -22,9 +24,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import java.util.ArrayList;
 
@@ -39,29 +43,16 @@ import app.box.Obj.Objects;
  */
 public class New_obj implements Screen {
     private Controller controller;
-    Stage stage;
+    private Stage stage;
     private Skin skin;
     public Table table_with_background = null;
     private Texture background = new Texture("background.png");
     private ArrayList<ArrayList<String>> staff;
-    private Table coordinate, color, rotation, buttons,  container_right, container_left, staffRight;
+    private Table coordinate, color, rotation, buttons, container_right, container_left, staffRight;
     private Image image;
     private Slider sliderX, sliderY, sliderZ;
     private TextField textFieldHex;
-
-    boolean boolWidth = false;
-    TextField FieldWidth;
-    boolean boolHeight = false;
-    TextField FieldHeight;
-    boolean boolDept = false;
-    TextField FieldDept;
-    boolean boolDivisionU = false;
-    TextField FieldDivisionU;
-    boolean boolDivisionV = false;
-    TextField FieldDivisionV;
-    boolean boolDivisions = false;
-    TextField FieldDivisions;
-
+    private TextField FieldWidth, FieldHeight, FieldDept, FieldRadius, FieldDivisionU, FieldDivisionV, FieldDivisions;
 
 
     public New_obj(Controller controller) {
@@ -101,7 +92,7 @@ public class New_obj implements Screen {
             staffRight.clear();
             coordinate = createRightContainerCoordinate();
         }
-        Label label = new Label("",skin);
+        Label label = new Label("", skin);
         staffRight.add(coordinate).fill().expand().row();
         staffRight.add(color).fill().expand().row();
         staffRight.add(rotation).fill().expand().row();
@@ -169,7 +160,6 @@ public class New_obj implements Screen {
                     table.add(FieldWidth).size(FieldWidth.getWidth() / 4, FieldWidth.getHeight()).expand().fill().row();
                 else
                     table.add(FieldWidth).size(FieldWidth.getWidth() / 4, FieldWidth.getHeight()).expand().fill();
-                boolWidth = true;
                 continue;
             } else if (option.equals("height")) {
                 i++;
@@ -180,7 +170,6 @@ public class New_obj implements Screen {
                     table.add(FieldHeight).size(FieldHeight.getWidth() / 4, FieldHeight.getHeight()).expand().fill().row();
                 else
                     table.add(FieldHeight).size(FieldHeight.getWidth() / 4, FieldHeight.getHeight()).expand().fill();
-                boolHeight = true;
                 continue;
             } else if (option.equals("dept")) {
                 i++;
@@ -191,7 +180,16 @@ public class New_obj implements Screen {
                     table.add(FieldDept).size(FieldDept.getWidth() / 4, FieldDept.getHeight()).expand().fill().row();
                 else
                     table.add(FieldDept).size(FieldDept.getWidth() / 4, FieldDept.getHeight()).expand().fill();
-                boolDept = true;
+                continue;
+            } else if (option.equals("radius")) {
+                i++;
+                table.add(new Label(option + ": ", skin));
+                FieldRadius = new TextField("5", skin);
+                FieldRadius.setMessageText("int");
+                if (i % 3 == 0)
+                    table.add(FieldRadius).size(FieldRadius.getWidth() / 4, FieldRadius.getHeight()).expand().fill().row();
+                else
+                    table.add(FieldRadius).size(FieldRadius.getWidth() / 4, FieldRadius.getHeight()).expand().fill();
                 continue;
             } else if (option.equals("divisionU")) {
                 i++;
@@ -202,7 +200,6 @@ public class New_obj implements Screen {
                     table.add(FieldDivisionU).size(FieldDivisionU.getWidth() / 4, FieldDivisionU.getHeight()).expand().fill().row();
                 else
                     table.add(FieldDivisionU).size(FieldDivisionU.getWidth() / 4, FieldDivisionU.getHeight()).expand().fill();
-                boolDivisionU = true;
                 continue;
             } else if (option.equals("divisionV")) {
                 i++;
@@ -213,7 +210,6 @@ public class New_obj implements Screen {
                     table.add(FieldDivisionV).size(FieldDivisionV.getWidth() / 4, FieldDivisionV.getHeight()).expand().fill().row();
                 else
                     table.add(FieldDivisionV).size(FieldDivisionV.getWidth() / 4, FieldDivisionV.getHeight()).expand().fill();
-                boolDivisionV = true;
                 continue;
             } else if (option.equals("divisions")) {
                 i++;
@@ -224,7 +220,6 @@ public class New_obj implements Screen {
                     table.add(FieldDivisions).size(FieldDivisions.getWidth() / 4, FieldDivisions.getHeight()).expand().fill().row();
                 else
                     table.add(FieldDivisions).size(FieldDivisions.getWidth() / 4, FieldDivisions.getHeight()).expand().fill();
-                boolDivisions = true;
                 continue;
             }
         }
@@ -246,7 +241,7 @@ public class New_obj implements Screen {
         image.setColor(color);
         Label label_color = new Label("Color:", skin);
         Label label_hex = new Label("Hex:", skin);
-        Label label = new Label("",skin);
+        Label label = new Label("", skin);
         textFieldHex = new TextField("#00FF33", skin);
         textFieldHex.setMessageText("#...");
         ImageButton button_random = new ImageButton(controller.getManager().load_Style("random"));
@@ -279,15 +274,15 @@ public class New_obj implements Screen {
             public void keyTyped(TextField textField, char key) {
                 if (key == '\n') textField.getOnscreenKeyboard().show(false);
                 if (textField.getText().length() > 4)
-                if ((textField.getText().substring(0, 1).equals("#") & textField.getText().length() == 7) || (!textField.getText().substring(0, 1).equals("#") & textField.getText().length() == 6)) {
-                    try {
-                        Color hex_color = new Color(Color.valueOf(textField.getText()));
-                        hex_color.a = image.getColor().a;
-                        image.setColor(hex_color);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else ;
+                    if ((textField.getText().substring(0, 1).equals("#") & textField.getText().length() == 7) || (!textField.getText().substring(0, 1).equals("#") & textField.getText().length() == 6)) {
+                        try {
+                            Color hex_color = new Color(Color.valueOf(textField.getText()));
+                            hex_color.a = image.getColor().a;
+                            image.setColor(hex_color);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else ;
 
             }
         });
@@ -295,12 +290,12 @@ public class New_obj implements Screen {
         return table;
     }
 
-    public Table createRightContainerRotation(){
+    public Table createRightContainerRotation() {
         final Label labelName, labelX, labelY, labelZ;
-        labelName = new Label("Change rotation: ",skin);//TODO: translate
-        labelX = new Label("to X: "+0,skin);
-        labelY = new Label("to Y: "+0,skin);
-        labelZ = new Label("to Z: "+0,skin);
+        labelName = new Label("Change rotation: ", skin);//TODO: translate
+        labelX = new Label("to X: " + 0, skin);
+        labelY = new Label("to Y: " + 0, skin);
+        labelZ = new Label("to Z: " + 0, skin);
         sliderX = new Slider(0f, 360f, 1f, false, skin);
         sliderY = new Slider(0f, 360f, 1f, false, skin);
         sliderZ = new Slider(0f, 360f, 1f, false, skin);
@@ -332,7 +327,7 @@ public class New_obj implements Screen {
         return table;
     }
 
-    public Table createRightContainerButtons(){
+    public Table createRightContainerButtons() {
         ImageButton create = new ImageButton(controller.getManager().load_Style("create"));
         create.addListener(new Listener(controller, 45));
         Table table = new Table(skin);
@@ -400,7 +395,7 @@ public class New_obj implements Screen {
         {
             data.add(0, "Capsule");
             data.add(1, "capsule");
-            data.add("width");
+            data.add("radius");
             data.add("height");
             data.add("divisions");
         }
@@ -437,16 +432,34 @@ public class New_obj implements Screen {
     public Drawable getBackground() {
         return new TextureRegionDrawable(new TextureRegion(background));
     }
-    public void create(){
+
+    public void create() {
         ArrayList<String> options = staff.get(Integer.parseInt(table_with_background.getName()));//name and etc.
         Color color = image.getColor();
-        Objects object = new Objects(options.get(0),new Texture(Gdx.files.internal("obj_img/default.png")));
+        Objects object = new Objects(options.get(0), new Texture(Gdx.files.internal("obj_img/default.png")));
         Model model;//TODO: private boolean fieldIsAvable(){}
         Material material = new Material();
-        model = new ModelBuilder().createXYZCoordinates(30,material,VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-        switch (Integer.parseInt(table_with_background.getName())){
-            case 0:
-                model = new ModelBuilder().createBox(Integer.parseInt(FieldWidth.getText()),Integer.parseInt(FieldHeight.getText()),Integer.parseInt(FieldDept.getText()),material, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+        model = new ModelBuilder().createXYZCoordinates(30, material, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+        switch (Integer.parseInt(table_with_background.getName())) {
+            case 0://box
+                model = new ModelBuilder().createBox(Integer.parseInt(FieldWidth.getText()), Integer.parseInt(FieldHeight.getText()), Integer.parseInt(FieldDept.getText()), material, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+                break;
+            case 1://sphere
+                model = new ModelBuilder().createSphere(Integer.parseInt(FieldWidth.getText()), Integer.parseInt(FieldHeight.getText()), Integer.parseInt(FieldDept.getText()), Integer.parseInt(FieldDivisionU.getText()), Integer.parseInt(FieldDivisionV.getText()), material, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+                break;
+            case 2://cylinder
+                model = new ModelBuilder().createCylinder(Integer.parseInt(FieldWidth.getText()), Integer.parseInt(FieldHeight.getText()), Integer.parseInt(FieldDept.getText()), Integer.parseInt(FieldDivisions.getText()), material, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+                break;
+            case 3://cone
+                model = new ModelBuilder().createCone(Integer.parseInt(FieldWidth.getText()), Integer.parseInt(FieldHeight.getText()), Integer.parseInt(FieldDept.getText()), Integer.parseInt(FieldDivisions.getText()), material, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+                break;
+            case 4://capsule
+                if (Integer.parseInt(FieldHeight.getText()) < 2f * Integer.parseInt(FieldRadius.getText())) {//Height must be at least twice the radius (one diameter)
+                    System.out.println(Integer.parseInt(FieldHeight.getText())+":"+2f * Integer.parseInt(FieldRadius.getText()));
+                    error_window("Height must be at least twice the radius");
+                    return;
+                } else
+                    model = new ModelBuilder().createCapsule(Integer.parseInt(FieldRadius.getText()), Integer.parseInt(FieldHeight.getText()), Integer.parseInt(FieldDivisions.getText()), material, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
                 break;
 
         }
@@ -456,6 +469,40 @@ public class New_obj implements Screen {
         controller.setScreen(new Edit_menu(controller));
         dispose();
     }
+
+    public void error_window(String error_msg) {
+        Label text = new Label(error_msg, skin);
+        ImageButton button = new ImageButton(controller.getManager().load_Style("ok"));
+        button.addListener(new Listener(controller, 46));
+        Window window = new Window("Error", skin);
+        window.setPosition(Gdx.graphics.getWidth() / 2 - window.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        window.add(text);
+        window.row();
+        window.add(button);
+        window.pack();
+        window.setName("window_error");
+        stage.addActor(window);
+    }
+
+    public void RemoveErrorWindow() {
+        String StringWidth="", StringHeight="", StringDept="", StringRadius="", StringDivisionU="", StringDivisionV="", StringDivisions="";
+        if (FieldWidth != null) StringWidth = FieldWidth.getText();
+        if (FieldHeight != null)  StringHeight = FieldHeight.getText();
+        if (FieldDept != null)  StringDept = FieldDept.getText();
+        if (FieldRadius != null)  StringRadius = FieldRadius.getText();
+        if (FieldDivisionU != null)  StringDivisionU = FieldDivisionU.getText();
+        if (FieldDivisionV != null)  StringDivisionV = FieldDivisionV.getText();
+        if (FieldDivisions != null)  StringDivisions = FieldDivisions.getText();
+        show();
+        if (FieldWidth != null) FieldWidth.setText(StringWidth);
+        if (FieldHeight != null)  FieldHeight.setText(StringHeight);
+        if (FieldDept != null)  FieldDept.setText(StringDept);
+        if (FieldRadius != null)  FieldRadius.setText(StringRadius);
+        if (FieldDivisionU != null)  FieldDivisionU.setText(StringDivisionU);
+        if (FieldDivisionV != null)  FieldDivisionV.setText(StringDivisionV);
+        if (FieldDivisions != null)  FieldDivisions.setText(StringDivisions);
+    }
+
     @Override
     public void dispose() {
         controller.multiplexer.removeProcessor(stage);

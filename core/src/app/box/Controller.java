@@ -71,17 +71,17 @@ public class Controller extends Game {
 
         obj.add(object);
         object = new Objects("X", new Texture(Gdx.files.internal("obj_img/default.png")));//red, x
-        object.setVisible(true);
+        object.setVisible(false);
         object.model = new ModelInstance(new ModelBuilder().createArrow(new Vector3(-1, 0, 0), new Vector3(10, 0, 0), new Material(ColorAttribute.createDiffuse(Color.RED)), VertexAttributes.Usage.Position));
         object.setColor(Color.RED);
         obj.add(object);
         object = new Objects("Y", new Texture(Gdx.files.internal("obj_img/default.png")));//green, y
-        object.setVisible(true);
+        object.setVisible(false);
         object.model = new ModelInstance(new ModelBuilder().createArrow(new Vector3(0, -1, 0), new Vector3(0, 10, 0), new Material(ColorAttribute.createDiffuse(Color.GREEN)), VertexAttributes.Usage.Position));
         object.setColor(Color.GREEN);
         obj.add(object);
         object = new Objects("z", new Texture(Gdx.files.internal("obj_img/default.png")));//blue, z
-        object.setVisible(true);
+        object.setVisible(false);
         object.model = new ModelInstance(new ModelBuilder().createArrow(new Vector3(0, 0, -1), new Vector3(0, 0, 10), new Material(ColorAttribute.createDiffuse(Color.BLUE)), VertexAttributes.Usage.Position));
         object.setColor(Color.BLUE);
         obj.add(object);

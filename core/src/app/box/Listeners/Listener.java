@@ -138,6 +138,9 @@ public class Listener extends InputListener {
             case 45://Create в New_obj
                 controller.get_new_obj().create();
                 break;
+            case 46://
+                controller.get_new_obj().RemoveErrorWindow();
+                break;
 
 
         }
