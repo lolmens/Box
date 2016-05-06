@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import app.box.Obj.Objects;
 import app.box.Obj.Player;
 import app.box.Screens.Edit_menu;
+import app.box.Screens.GameScreen;
 import app.box.Screens.Main_menu;
 import app.box.Screens.New_obj;
 
@@ -33,12 +34,11 @@ public class Controller extends Game {
     public ArrayList<Objects> obj;
     public Skin skin_buttons;
     public Skin skin;
-    Player player;
+    private Player player;
     public InputMultiplexer multiplexer;
     private Edit_menu edit_menu;
     private New_obj new_obj;
 
-    //private Vector3 go; //future
     @Override
     public void create() {
         multiplexer = new InputMultiplexer();
@@ -61,28 +61,26 @@ public class Controller extends Game {
         blendingAttribute.opacity = 0.5f;
 
         Objects object = new Objects("Cylinder", new Texture(Gdx.files.internal("obj_img/default.png")));
-        object.model = new ModelInstance(new ModelBuilder().createCylinder(10, 10, 10, 90, new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal));
-        object.model.materials.get(0).set(blendingAttribute);
-        object.model.materials.get(0).set(ColorAttribute.createDiffuse(0.9f, 0.6f, 0.7f, 0.5f));
+        object.createModel(new ModelBuilder().createCylinder(10, 10, 10, 90, new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal));
+        object.setAttribute(blendingAttribute);
+        object.setAttribute(ColorAttribute.createDiffuse(0.9f, 0.6f, 0.7f, 0.5f));
         object.setColor(new Color(0.9f, 0.6f, 0.7f, 0.5f));
         //object.model.transform.setTranslation(15, 10, 5);
-        object.model.transform.rotate(45, 0, 45, 90);
-        //object.model.transform.
-
+        object.rotation(45, 0, 45);
         obj.add(object);
         object = new Objects("X", new Texture(Gdx.files.internal("obj_img/default.png")));//red, x
         object.setVisible(false);
-        object.model = new ModelInstance(new ModelBuilder().createArrow(new Vector3(-1, 0, 0), new Vector3(10, 0, 0), new Material(ColorAttribute.createDiffuse(Color.RED)), VertexAttributes.Usage.Position));
+        object.createModel(new ModelBuilder().createArrow(new Vector3(-1, 0, 0), new Vector3(10, 0, 0), new Material(ColorAttribute.createDiffuse(Color.RED)), VertexAttributes.Usage.Position));
         object.setColor(Color.RED);
         obj.add(object);
         object = new Objects("Y", new Texture(Gdx.files.internal("obj_img/default.png")));//green, y
         object.setVisible(false);
-        object.model = new ModelInstance(new ModelBuilder().createArrow(new Vector3(0, -1, 0), new Vector3(0, 10, 0), new Material(ColorAttribute.createDiffuse(Color.GREEN)), VertexAttributes.Usage.Position));
+        object.createModel(new ModelBuilder().createArrow(new Vector3(0, -1, 0), new Vector3(0, 10, 0), new Material(ColorAttribute.createDiffuse(Color.GREEN)), VertexAttributes.Usage.Position));
         object.setColor(Color.GREEN);
         obj.add(object);
         object = new Objects("z", new Texture(Gdx.files.internal("obj_img/default.png")));//blue, z
         object.setVisible(false);
-        object.model = new ModelInstance(new ModelBuilder().createArrow(new Vector3(0, 0, -1), new Vector3(0, 0, 10), new Material(ColorAttribute.createDiffuse(Color.BLUE)), VertexAttributes.Usage.Position));
+        object.createModel(new ModelBuilder().createArrow(new Vector3(0, 0, -1), new Vector3(0, 0, 10), new Material(ColorAttribute.createDiffuse(Color.BLUE)), VertexAttributes.Usage.Position));
         object.setColor(Color.BLUE);
         obj.add(object);
 
@@ -95,7 +93,6 @@ public class Controller extends Game {
     public Edit_menu get_edit_menu() {
         return edit_menu;
     }
-
     public void set_edit_menu(Edit_menu edit_menu) {
         this.edit_menu = edit_menu;
     }
@@ -103,7 +100,6 @@ public class Controller extends Game {
     public New_obj get_new_obj() {
         return new_obj;
     }
-
     public void set_new_obj(New_obj new_obj) {
         this.new_obj = new_obj;
     }
@@ -116,6 +112,6 @@ public class Controller extends Game {
         super.dispose();
     }
 
-    //TODO: Дать выбор переходить или нет в коробку сразу после изменения параметров адаптера. Дать возможность показывания окон в BOX.
+    //TODO: Дать выбор переходить или нет в коробку сразу после изменения параметров адаптера.
 
 }

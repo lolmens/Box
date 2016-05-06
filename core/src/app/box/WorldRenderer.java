@@ -10,7 +10,9 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.Ray;
 
 import java.util.ArrayList;
 
@@ -32,6 +34,7 @@ public class WorldRenderer {
         createCamera();
         createEnvironment();
     }
+
     private void createCamera() {
         camera = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.position.set(25, 25, 25);//x y z
@@ -50,7 +53,7 @@ public class WorldRenderer {
         //environment.add(new DirectionalLight().set(0.7f, 0.7f, 0.7f, 1f, -0.8f, -0.2f));
         environment.add(new DirectionalLight().set(1f, 1f, 1f, -0.1f, -1f, -0.1f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, 0.1f, 1f, 0.1f));
-        environment.add(new DirectionalLight().set(new Color(Color.valueOf("FFFF99").add(-0.4f,-0.4f,-0.4f,-0.9f)), new Vector3(-10,-3,-10)));
+        environment.add(new DirectionalLight().set(new Color(Color.valueOf("FFFF99").add(-0.4f, -0.4f, -0.4f, -0.9f)), new Vector3(-10, -3, -10)));
         //environment.add(new PointLight().set(Color.RED, 10, 10, 15, 100));
     }
 
@@ -67,6 +70,33 @@ public class WorldRenderer {
         }
         batch.end();
     }
+
+    public int getObject(int ScrX, int ScrY) {
+        Ray ray = camera.getPickRay(ScrX, ScrY);
+        int res = -1;
+        float span = -1f;
+        ArrayList<Objects> obj = controller.obj;
+        Vector3 position = new Vector3();
+        for (int i = 0; i < obj.size(); i++) {
+            Objects object = obj.get(i);
+            if (object.isVisible()) {
+                object.getMoving(position);
+                position.add(object.getCenter());
+                final float len = ray.direction.dot(position.x - ray.origin.x, position.y - ray.origin.y, position.z - ray.origin.z);
+                if (len < 0f)
+                    continue;
+                float span2 = position.dst2(ray.origin.x + ray.direction.x * len, ray.origin.y + ray.direction.y * len, ray.origin.z + ray.direction.z * len);
+                if (span >= 0f && span2 > span)
+                    continue;
+                if (span2 <= object.getRadius() * object.getRadius()) {
+                    res = i;
+                    span = span2;
+                }
+            }
+        }
+        return res;
+    }
+
 
     public void camera_go(Vector3 v) {
         camera.position.add(v);

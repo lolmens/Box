@@ -138,10 +138,16 @@ public class Listener extends InputListener {
             case 45://Create в New_obj
                 controller.get_new_obj().create();
                 break;
-            case 46://
+            case 46://Ok в error window в New_obj
                 controller.get_new_obj().RemoveErrorWindow();
                 break;
-
+            case 47://Cancel в windows в GameScreen
+                ((GameScreen)controller.getScreen()).show();
+                break;
+            case 48://Move, Rotation, Paint в windows в GameScreen
+                ((GameScreen)controller.getScreen()).applyChanges();
+                ((GameScreen)controller.getScreen()).show();
+                break;
 
         }
     }

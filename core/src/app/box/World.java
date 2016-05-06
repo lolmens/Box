@@ -18,6 +18,9 @@ public class World {
         obj = controller.obj;
         render = new WorldRenderer(controller);
     }
+    public int getObject(int ScrX, int ScrY) {
+        return render.getObject(ScrX, ScrY);
+    }
     public void update(float delta) {
         /*Gdx.gl.glClearColor(0.35f, 0, 0.35f, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);*/

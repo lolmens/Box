@@ -229,12 +229,12 @@ public class Edit_menu implements Screen {
             window.add(textFields[i]);
             window.row();
         }
-        ImageButton button_cansel = new ImageButton(controller.getManager().load_Style("cancel"));
-        button_cansel.addListener(new Listener(controller, 40));
+        ImageButton button_cancel = new ImageButton(controller.getManager().load_Style("cancel"));
+        button_cancel.addListener(new Listener(controller, 40));
         ImageButton button_turn = new ImageButton(controller.getManager().load_Style("turn"));
         button_turn.addListener(new Listener(controller, 41));
         window.add(button_turn);
-        window.add(button_cansel);
+        window.add(button_cancel);
         window.setPosition(Gdx.graphics.getWidth() / 2 - window.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         window.pack();
         stage.addActor(window);
@@ -243,7 +243,7 @@ public class Edit_menu implements Screen {
     public boolean edit_rotation() {
         Objects objects = controller.obj.get(Integer.parseInt(table_with_background.getName()));
         try {
-            objects.rotation(Integer.parseInt(textFields[0].getText()), Integer.parseInt(textFields[1].getText()), Integer.parseInt(textFields[2].getText()), Integer.parseInt(textFields[3].getText()));
+            objects.rotation(Integer.parseInt(textFields[0].getText()), Integer.parseInt(textFields[1].getText()), Integer.parseInt(textFields[2].getText()));
         } catch (Exception e) {
             return false;
         }
