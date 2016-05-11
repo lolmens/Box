@@ -41,6 +41,7 @@ public class GameScreen implements Screen {
     public int selected = -1, selecting = -1;
     private GameScreenListener gameScreenListener;
     private ImageButton button_back;
+    private float scaleWight, scaleHeight;
 
     TextField[] CoordinateTextFields;
     TextField[] RotationTextFields;
@@ -49,17 +50,24 @@ public class GameScreen implements Screen {
     public GameScreen(Controller controller) {
         this.controller = controller;
         skin = controller.skin;
+
+        stage = new Stage();
+
+        scaleHeight = controller.getScaleH();
+        scaleWight = controller.getScaleW();
+
         stringBuilder = new StringBuilder();
         FPS = new Label(" ", controller.skin);
+
         gameScreenListener = new GameScreenListener(this);
-        stage = new Stage();
-        button_back = new ImageButton(controller.getManager().load_Style("back"));
-        button_back.setSize(30, 20);// размер кнопки
-        button_back.setPosition(2, Gdx.graphics.getHeight() - (button_back.getHeight() + 2));//x,y
-        button_back.addListener(new Listener(controller, 20));
         controller.multiplexer.addProcessor(stage);//Добавить сцену в слушатели
         controller.multiplexer.addProcessor(gameScreenListener);
-        world = new World(controller);
+        world = new World(controller);//world тоже создаёт слушателя,его лсушатель должен быть последним!
+
+        button_back = new ImageButton(controller.getManager().load_Style("back"));
+        button_back.setSize(30 * scaleWight, 20 * scaleHeight);// размер кнопки
+        button_back.setPosition(2 * scaleWight, Gdx.graphics.getHeight() - (button_back.getHeight() + 2 * scaleHeight));//x,y
+        button_back.addListener(new Listener(controller, 20));
     }
 
     @Override
@@ -74,7 +82,7 @@ public class GameScreen implements Screen {
     public void setSelected(int value) {
         if (selected == value) return;
         if (selected >= 0) {
-           show();
+            show();
         }
         selected = value;
         if (selected >= 0) {
@@ -112,7 +120,7 @@ public class GameScreen implements Screen {
         slider.setAnimateDuration(0.3f);
         slider.setValue(image1.getColor().a * 10);
 
-        final Label transparencyLabel = new Label("Transparensy : " + image1.getColor().a, skin);
+        final Label transparencyLabel = new Label("Transparency : " + image1.getColor().a, skin);
         Label hexLabel = new Label("Enter HEX value", skin);
         TextField Hex = new TextField("", skin);
         Hex.setMessageText("#...");
@@ -137,8 +145,8 @@ public class GameScreen implements Screen {
             MovingWindow.add(CoordinateTextFields[i]).size(Gdx.graphics.getWidth() / 10, CoordinateTextFields[i].getHeight());
             MovingWindow.row();
         }
-        MovingWindow.add(buttonMove);
-        MovingWindow.add(buttonsCancel[0]);
+        MovingWindow.add(buttonMove).size(102 * scaleWight, 27 * scaleHeight);
+        MovingWindow.add(buttonsCancel[0]).size(102 * scaleWight, 27 * scaleHeight);
         MovingWindow.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.9f - MovingWindow.getHeight());
         MovingWindow.pack();
 
@@ -154,8 +162,8 @@ public class GameScreen implements Screen {
             RotationWindow.add(RotationTextFields[i]).size(Gdx.graphics.getWidth() / 10, RotationTextFields[i].getHeight());
             RotationWindow.row();
         }
-        RotationWindow.add(buttonTurn);
-        RotationWindow.add(buttonsCancel[1]);
+        RotationWindow.add(buttonTurn).size(102 * scaleWight, 27 * scaleHeight);
+        RotationWindow.add(buttonsCancel[1]).size(102 * scaleWight, 27 * scaleHeight);
         RotationWindow.setPosition(Gdx.graphics.getWidth() - Gdx.graphics.getWidth() * 0.05f - RotationWindow.getWidth(), Gdx.graphics.getHeight() * 0.1f);
         RotationWindow.pack();
 
@@ -177,8 +185,8 @@ public class GameScreen implements Screen {
         ColorWindow.add(table1).expandX().fillX();
         ColorWindow.add(table2).expandX().fillX();
         ColorWindow.row();
-        ColorWindow.add(buttonsCancel[2]);
-        ColorWindow.add(buttonPaint);
+        ColorWindow.add(buttonsCancel[2]).size(102 * scaleWight, 27 * scaleHeight);
+        ColorWindow.add(buttonPaint).size(102 * scaleWight, 27 * scaleHeight);
         ColorWindow.pack();
         ColorWindow.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.1f);
         stage.addActor(MovingWindow);
@@ -188,19 +196,21 @@ public class GameScreen implements Screen {
         slider.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 image2.getColor().a = slider.getValue() / 10;
-                transparencyLabel.setText("transparensy : " + slider.getValue() / 10);
+                transparencyLabel.setText("Transparency : " + slider.getValue() / 10);
             }
         });
         Hex.setTextFieldListener(new TextField.TextFieldListener() {
             public void keyTyped(TextField textField, char key) {
                 if (key == '\n') textField.getOnscreenKeyboard().show(false);
-                if ((textField.getText().substring(0, 1).equals("#") & textField.getText().length() == 7) || (!textField.getText().substring(0, 1).equals("#") & textField.getText().length() == 6)) {
-                    try {
-                        Color hex_color = new Color(Color.valueOf(textField.getText()));
-                        hex_color.a = image2.getColor().a;
-                        image2.setColor(hex_color);
-                    } catch (Exception e) {}
-                }//TODO:Доделать edit Color
+                if (textField.getText().length() > 5)
+                    if ((textField.getText().substring(0, 1).equals("#") & textField.getText().length() == 7) || (!textField.getText().substring(0, 1).equals("#") & textField.getText().length() == 6)) {
+                        try {
+                            Color hex_color = new Color(Color.valueOf(textField.getText()));
+                            hex_color.a = image2.getColor().a;
+                            image2.setColor(hex_color);
+                        } catch (Exception e) {
+                        }
+                    }//TODO:Доделать edit Color
 
             }
         });
@@ -211,20 +221,28 @@ public class GameScreen implements Screen {
         buttonTurn.addListener(new Listener(controller, 48));
     }
 
-    public void applyChanges(){
+    public void applyChanges() {
         Objects object = controller.obj.get(selected);
+        for (TextField field: CoordinateTextFields){
+            field.getOnscreenKeyboard().show(false);
+        }
+        for (TextField field: RotationTextFields){
+            field.getOnscreenKeyboard().show(false);
+        }
         if (!object.getColor().equals(image2.getColor()))
             object.setColor(image2.getColor());
         try {
             Vector3 moving = new Vector3(Integer.parseInt(CoordinateTextFields[0].getText()), Integer.parseInt(CoordinateTextFields[1].getText()), Integer.parseInt(CoordinateTextFields[2].getText()));
             if (!object.getMoving(new Vector3()).equals(moving))
                 object.moving(moving.x, moving.y, moving.z);
-        } catch (Exception e){}
+        } catch (Exception e) {
+        }
         try {
             Vector3 rotation = new Vector3(Integer.parseInt(RotationTextFields[0].getText()), Integer.parseInt(RotationTextFields[1].getText()), Integer.parseInt(RotationTextFields[2].getText()));
             if (!object.getMoving(new Vector3()).equals(rotation))
                 object.rotation(rotation.x, rotation.y, rotation.z);
-        } catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
 
     public int getObject(int ScrX, int ScrY) {

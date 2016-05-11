@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -44,6 +45,7 @@ public class Edit_menu implements Screen {
     private Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("background.png")));
     private TextField[] textFields = new TextField[4];//x,y,z,w
     private Color color;
+    private float scaleWight, scaleHeight;
 
     public Edit_menu(Controller controller) {
         this.controller = controller;
@@ -52,6 +54,8 @@ public class Edit_menu implements Screen {
         skin = controller.skin;
         stage = new Stage();
         controller.multiplexer.addProcessor(stage);
+        scaleWight = controller.getScaleW();
+        scaleHeight = controller.getScaleH();
     }
 
     @Override
@@ -76,7 +80,7 @@ public class Edit_menu implements Screen {
         container_one = new Table();
         container_two = new Table();
         container_one.setWidth(Gdx.graphics.getWidth() / 4);
-        container_two.setWidth(Gdx.graphics.getWidth() / 2 - 20);
+        container_two.setWidth(Gdx.graphics.getWidth() / 2 - 20 * scaleWight);
 
         // Внутренняя таблица, которая используется в качестве импровизированного списка.
         Table innerContainer_one = new Table();
@@ -89,22 +93,22 @@ public class Edit_menu implements Screen {
             objects_size++;
             Objects obj = objects.get(i);
             Table table = new Table(skin);
-            table.add(new Image(obj.getTexture())).size(40, 40).expandY().fillY();
+            table.add(new Image(obj.getTexture())).size(40 * scaleWight, 40 * scaleHeight).expandY().fillY();
             table.add(new Label("", skin)).width(10f).expandY().fillY();//разделитель
             table.add(new Label(obj.getName(), skin)).expandY().fillY();
-            table.getCells().get(2).size(container_one.getWidth() * 2 / 3, 40);
+            table.getCells().get(2).size(container_one.getWidth() * 2 / 3, 40 * scaleHeight);
             table.addListener(new Listener(controller, 10));
             table.setName(i + "");
             innerContainer_one.add(table).expand().fill();
             innerContainer_one.row();
         }
 
-        if (Gdx.graphics.getHeight() > 44 * objects_size) {
-            container_one.setHeight(43 * objects_size);
-            container_one.setPosition(20, Gdx.graphics.getHeight() - 44 * objects_size - 20);
+        if (Gdx.graphics.getHeight() > 44 * scaleHeight * objects_size) {
+            container_one.setHeight(43 * scaleHeight * objects_size);
+            container_one.setPosition(20 * scaleWight, Gdx.graphics.getHeight() - 44 * scaleHeight * objects_size - 20 * scaleHeight);
         } else {
-            container_one.setHeight(Gdx.graphics.getHeight());
-            container_one.setPosition(20, 20);
+            container_one.setHeight(Gdx.graphics.getHeight() - 40 * scaleHeight);
+            container_one.setPosition(20 * scaleWight, 20 * scaleHeight);
         }
 
 
@@ -118,7 +122,7 @@ public class Edit_menu implements Screen {
         for (int i = 0; i < buttons.length; i++) {
             Table table = new Table(skin);
             ImageButton imageButton = new ImageButton(controller.getManager().load_Style(buttons[i]));
-            imageButton.setSize(200, 52);// размер кнопки
+            imageButton.setSize(200 * scaleWight, 52 * scaleHeight);// размер кнопки
             imageButton.setPosition(0, 0);//x,y
             imageButton.addListener(new Listener(controller, 25 + i));
             Label label = new Label(texts[i], skin);
@@ -127,12 +131,12 @@ public class Edit_menu implements Screen {
                 table.add(imageButton).expandY().fill();//button
                 table.add(new Label("", skin)).width(10).expandY().fillY();//spaser
                 table.add(label).expandX().fillX();//text
-                table.getCells().get(0).size(200, 52);
+                table.getCells().get(0).size(200 * scaleWight, 52 * scaleHeight);
             } else {
                 table.add(label).expandX().fillX();//text
                 table.add(new Label("", skin)).width(10).expandY().fillY();//spaser
                 table.add(imageButton).expandY().fill();//button
-                table.getCells().get(2).size(200, 52);
+                table.getCells().get(2).size(200 * scaleWight, 52 * scaleHeight);
             }
             //table.getCells().get(2).size(500,50);
             innerContainer_two.add(table).expand().fill();
@@ -142,8 +146,8 @@ public class Edit_menu implements Screen {
         Table fife_line = new Table(skin);
         ImageButton imageButton_add = new ImageButton(controller.getManager().load_Style("add"));
         ImageButton imageButton_remove = new ImageButton(controller.getManager().load_Style("remove"));
-        imageButton_add.setSize(97, 52);
-        imageButton_remove.setSize(152, 52);
+        imageButton_add.setSize(97 * scaleWight, 52 * scaleHeight);
+        imageButton_remove.setSize(152 * scaleWight, 52 * scaleHeight);
         imageButton_remove.addListener(new Listener(controller, 30));
         imageButton_add.addListener(new Listener(controller, 29));
         Label label = new Label("It allows you to add or remove objects.", skin);
@@ -156,13 +160,13 @@ public class Edit_menu implements Screen {
         fife_line.add(spaser).width(10).expandY().fillY();//spacer
         fife_line.add(label).expandX().fillX();
 
-        fife_line.getCells().get(0).size(97, 52);
-        fife_line.getCells().get(2).size(152, 52);
+        fife_line.getCells().get(0).size(97 * scaleWight, 52 * scaleHeight);
+        fife_line.getCells().get(2).size(152 * scaleWight, 52 * scaleHeight);
         innerContainer_two.add(fife_line).expand().fill();
         innerContainer_two.row();
 
-        container_two.setHeight(Gdx.graphics.getHeight() - 40);
-        container_two.setPosition(Gdx.graphics.getWidth() / 2, 20);
+        container_two.setHeight(Gdx.graphics.getHeight() - 40 * scaleHeight);
+        container_two.setPosition(Gdx.graphics.getWidth() / 2, 20 * scaleHeight);
 
 
         //Создание панелей прокрутки
@@ -180,8 +184,8 @@ public class Edit_menu implements Screen {
 
         //Создание кнопки назад
         ImageButton button_back = new ImageButton(controller.getManager().load_Style("back"));
-        button_back.setSize(30, 20);// размер кнопки
-        button_back.setPosition(2, Gdx.graphics.getHeight() - (button_back.getHeight() + 2));//x,y
+        button_back.setSize(30 * scaleWight, 20 * scaleHeight);// размер кнопки
+        button_back.setPosition(2 * scaleWight, Gdx.graphics.getHeight() - (button_back.getHeight() + 2 * scaleHeight));//x,y
         button_back.addListener(new Listener(controller, 20));
 
         //Добавить кнопку возврата на сцену
@@ -233,8 +237,8 @@ public class Edit_menu implements Screen {
         button_cancel.addListener(new Listener(controller, 40));
         ImageButton button_turn = new ImageButton(controller.getManager().load_Style("turn"));
         button_turn.addListener(new Listener(controller, 41));
-        window.add(button_turn);
-        window.add(button_cancel);
+        window.add(button_turn).size(102 * scaleWight, 27 * scaleHeight);
+        window.add(button_cancel).size(102 * scaleWight, 27 * scaleHeight);
         window.setPosition(Gdx.graphics.getWidth() / 2 - window.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         window.pack();
         stage.addActor(window);
@@ -242,6 +246,10 @@ public class Edit_menu implements Screen {
 
     public boolean edit_rotation() {
         Objects objects = controller.obj.get(Integer.parseInt(table_with_background.getName()));
+        for (TextField field:textFields){
+            if(field!=null)
+            field.getOnscreenKeyboard().show(false);
+        }
         try {
             objects.rotation(Integer.parseInt(textFields[0].getText()), Integer.parseInt(textFields[1].getText()), Integer.parseInt(textFields[2].getText()));
         } catch (Exception e) {
@@ -268,8 +276,8 @@ public class Edit_menu implements Screen {
         button_cansel.addListener(new Listener(controller, 40));
         ImageButton button_turn = new ImageButton(controller.getManager().load_Style("move"));
         button_turn.addListener(new Listener(controller, 42));
-        window.add(button_turn);
-        window.add(button_cansel);
+        window.add(button_turn).size(102 * scaleWight, 27 * scaleHeight);
+        window.add(button_cansel).size(102 * scaleWight, 27 * scaleHeight);
         window.setPosition(Gdx.graphics.getWidth() / 2 - window.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         window.pack();
         stage.addActor(window);
@@ -277,6 +285,10 @@ public class Edit_menu implements Screen {
 
     public boolean edit_moving() {
         Objects objects = controller.obj.get(Integer.parseInt(table_with_background.getName()));
+        for (TextField field:textFields){
+            if(field!=null)
+            field.getOnscreenKeyboard().show(false);
+        }
         try {
             objects.moving(Integer.parseInt(textFields[0].getText()), Integer.parseInt(textFields[1].getText()), Integer.parseInt(textFields[2].getText()));
         } catch (Exception e) {
@@ -299,9 +311,9 @@ public class Edit_menu implements Screen {
         window.row();
         window.add(text);
         window.row();
-        window.add(button_ok).align(Align.right);
+        window.add(button_ok).size(102 * scaleWight, 27 * scaleHeight).align(Align.right);
         window.add(new Label(" ", skin));
-        window.add(button_cansel).align(Align.left);
+        window.add(button_cansel).size(102 * scaleWight, 27 * scaleHeight).align(Align.left);
         window.row();
         window.setPosition(Gdx.graphics.getWidth() / 2 - window.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         window.pack();
@@ -321,7 +333,7 @@ public class Edit_menu implements Screen {
         window.setPosition(Gdx.graphics.getWidth() / 2 - window.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         window.add(text);
         window.row();
-        window.add(button);
+        window.add(button).size(102 * scaleWight, 27 * scaleHeight);
         window.pack();
         stage.addActor(window);
     }
@@ -349,18 +361,18 @@ public class Edit_menu implements Screen {
         slider.setAnimateDuration(0.3f);
         slider.setValue(image1.getColor().a * 10);
 
-        final Label transparency_label = new Label("transparensy : " + image1.getColor().a, skin);
+        final Label transparency_label = new Label("Transparency : " + image1.getColor().a, skin);
         Label HEX_label = new Label("Enter HEX value", skin);
         TextField Hex = new TextField("", skin);
         Hex.setMessageText("#...");
 
         Table table1 = new Table(skin), table2 = new Table(skin);
 
-        table1.add(image1).size(50, 50).expandX().fillX();
+        table1.add(image1).size(50 * scaleWight, 50 * scaleHeight).expandX().fillX();
         table1.row();
         table1.add(new Image()).pad(0, 2, 0, 2);
         table1.row();
-        table1.add(image2).size(50, 50).expandX().fillX();
+        table1.add(image2).size(50 * scaleWight, 50 * scaleHeight).expandX().fillX();
         table2.add(transparency_label);
         table2.row();
         table2.add(slider).minWidth(100).fillX();
@@ -381,8 +393,8 @@ public class Edit_menu implements Screen {
         window.add(table1).expandX().fillX();
         window.add(table2).expandX().fillX();
         window.row();
-        window.add(button_cansel);
-        window.add(button_paint);
+        window.add(button_cansel).size(102 * scaleWight, 27 * scaleHeight);
+        window.add(button_paint).size(102 * scaleWight, 27 * scaleHeight);
         window.pack();
 
         color = image1.getColor();
@@ -403,22 +415,24 @@ public class Edit_menu implements Screen {
                 image2.setColor(img_color);
 
                 color = img_color;
-                transparency_label.setText("transparensy : " + slider.getValue() / 10);
+                transparency_label.setText("Transparency : " + slider.getValue() / 10);
             }
         });
         Hex.setTextFieldListener(new TextField.TextFieldListener() {
             public void keyTyped(TextField textField, char key) {
                 if (key == '\n') textField.getOnscreenKeyboard().show(false);
-                if ((textField.getText().substring(0, 1).equals("#") & textField.getText().length() == 7) || (!textField.getText().substring(0, 1).equals("#") & textField.getText().length() == 6)) {
-                    try {
-                        Color hex_color = new Color(Color.valueOf(textField.getText()));
-                        hex_color.a = image2.getColor().a;
-                        image2.setColor(hex_color);
-                        color = hex_color;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else ;//TODO:Доделать edit Color
+                if (textField.getText().length() > 5)
+                    if ((textField.getText().substring(0, 1).equals("#") & textField.getText().length() == 7) || (!textField.getText().substring(0, 1).equals("#") & textField.getText().length() == 6)) {
+                        try {
+                            Color hex_color = new Color(Color.valueOf(textField.getText()));
+                            hex_color.a = image2.getColor().a;
+                            image2.setColor(hex_color);
+                            color = hex_color;
+                            textField.getOnscreenKeyboard().show(false);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else ;//TODO:Доделать edit Color
 
             }
         });

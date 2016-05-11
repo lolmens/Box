@@ -53,7 +53,7 @@ public class New_obj implements Screen {
     private Slider sliderX, sliderY, sliderZ;
     private TextField textFieldHex;
     private TextField FieldWidth, FieldHeight, FieldDept, FieldRadius, FieldDivisionU, FieldDivisionV, FieldDivisions;
-
+    private float scaleWight, scaleHeight;
 
     public New_obj(Controller controller) {
         this.controller = controller;
@@ -61,6 +61,8 @@ public class New_obj implements Screen {
         skin = controller.skin;
         controller.set_new_obj(this);
         controller.multiplexer.addProcessor(stage);
+        scaleHeight = controller.getScaleH();
+        scaleWight = controller.getScaleW();
     }
 
     @Override
@@ -92,7 +94,6 @@ public class New_obj implements Screen {
             staffRight.clear();
             coordinate = createRightContainerCoordinate();
         }
-        Label label = new Label("", skin);
         staffRight.add(coordinate).fill().expand().row();
         staffRight.add(color).fill().expand().row();
         staffRight.add(rotation).fill().expand().row();
@@ -105,8 +106,8 @@ public class New_obj implements Screen {
 
         //Создание кнопки назад
         ImageButton button_back = new ImageButton(controller.getManager().load_Style("back"));
-        button_back.setSize(30, 20);// размер кнопки
-        button_back.setPosition(2, Gdx.graphics.getHeight() - (button_back.getHeight() + 2));//x,y
+        button_back.setSize(30 * scaleWight, 20 * scaleHeight);// размер кнопки
+        button_back.setPosition(2 * scaleWight, Gdx.graphics.getHeight() - (button_back.getHeight() + 2 * scaleHeight));//x,y
         button_back.addListener(new Listener(controller, 21));
 
         //Добавить кнопку возврата на сцену
@@ -254,7 +255,7 @@ public class New_obj implements Screen {
         Table table = new Table(skin);
         table.add(label_color).expand().fill();
         table.add(image).size(label_color.getWidth(), label_color.getHeight()).expand().fill().row();
-        table.add(button_random).size(72, 27).expand().fill();
+        table.add(button_random).size(102 * scaleWight, 27 * scaleHeight).expand().fill();
         table.add(label_hex).expand().fill();
         table.add(textFieldHex).size(label_hex.getWidth() * 3, textFieldHex.getHeight()).expand().fill().row();
         table.add(label).size(label.getWidth(), 5).fill().expand().row();
@@ -407,7 +408,7 @@ public class New_obj implements Screen {
             Label label = new Label(options.get(0), skin);
             Image image = new Image(getTexture(options.get(1)));
             Table table = new Table(skin);
-            table.add(image).size(50, 50).expand().fill();
+            table.add(image).size(50*scaleWight, 50*scaleHeight).expand().fill();
             table.add(new Label(" ", skin)).size(3, 50).expand().fill();
             table.add(label).size(90, 50).expand().fill();
             table.setName(name + "");
@@ -478,9 +479,8 @@ public class New_obj implements Screen {
         window.setPosition(Gdx.graphics.getWidth() / 2 - window.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         window.add(text);
         window.row();
-        window.add(button);
+        window.add(button).size(102 * scaleWight, 27 * scaleHeight);
         window.pack();
-        window.setName("window_error");
         stage.addActor(window);
     }
 
