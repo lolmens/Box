@@ -47,6 +47,10 @@ public class Listener extends InputListener {
                 controller.getScreen().dispose();
                 controller.setScreen(new Edit_menu(controller));
                 break;
+            case 6://Example
+                controller.getScreen().dispose();
+                controller.setScreen(new Example(controller));
+                break;
 
             case 10://onli for table in Edit_menu
                 if (controller.get_edit_menu().table_with_background != null) {
@@ -72,6 +76,11 @@ public class Listener extends InputListener {
                 controller.get_new_obj().table_with_background = (Table) event.getListenerActor();
                 controller.get_new_obj().table_with_background.setName(event.getListenerActor().getName());
                 controller.get_new_obj().show();
+                break;
+            case 12:
+                ((Example)controller.getScreen()).set();
+                controller.getScreen().dispose();
+                controller.setScreen(new Main_menu(controller));
                 break;
             case 20://Кнопка назад (возрат в Main menu)
                 controller.getScreen().dispose();

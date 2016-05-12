@@ -65,7 +65,6 @@ public class Edit_menu implements Screen {
         //System.out.println(list.getSelected().toString());
         stage.draw();
         stage.act(delta);
-
     }
 
     @Override

@@ -70,13 +70,13 @@ public class Controller extends Game {
         blendingAttribute.opacity = 0.5f;
 
         Objects object = new Objects("Cylinder", new Texture(Gdx.files.internal("obj_img/default.png")));
-        /*object.createModel(new ModelBuilder().createCylinder(10, 10, 10, 90, new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal));
+        object.createModel(new ModelBuilder().createCylinder(10, 10, 10, 90, new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal));
         object.setAttribute(blendingAttribute);
         object.setAttribute(ColorAttribute.createDiffuse(0.9f, 0.6f, 0.7f, 0.5f));
         object.setColor(new Color(0.9f, 0.6f, 0.7f, 0.5f));
         object.moving(15, 10, 5);
         object.rotation(45, 0, 45);
-        obj.add(object);*/
+        obj.add(object);
         object = new Objects("X", new Texture(Gdx.files.internal("obj_img/default.png")));//red, x
         object.setVisible(false);
         object.createModel(new ModelBuilder().createArrow(new Vector3(-1, 0, 0), new Vector3(10, 0, 0), new Material(ColorAttribute.createDiffuse(Color.RED)), VertexAttributes.Usage.Position));
@@ -93,13 +93,13 @@ public class Controller extends Game {
         object.setColor(Color.BLUE);
         obj.add(object);
 
-        ModelLoader loader = new ObjLoader();
+        /*ModelLoader loader = new ObjLoader();
         object = new Objects("Samsung", new Texture("obj_img/default.png"));
         object.setVisible(true);
         object.createModel(loader.loadModel(Gdx.files.internal("models/samsunglogo.obj")), Color.BLUE);
         object.moving(0, 14, 0);
         object.rotation(0, 35, 0);
-        obj.add(object);
+        obj.add(object);*/
 
     }
 
